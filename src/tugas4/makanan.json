@@ -1,0 +1,544 @@
+{
+  "foods": [
+    {
+      "id": 1,
+      "name": "Nasi Goreng Special",
+      "category": "Main Course",
+      "price": 35000,
+      "rating": 4.8,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 580,
+        "protein": 15,
+        "carbs": 75,
+        "fat": 18
+      },
+      "ingredients": {
+        "main": ["Rice", "Chicken", "Egg", "Shrimp"],
+        "spices": ["Garlic", "Shallot", "Chili", "Sweet Soy Sauce"],
+        "toppings": ["Cucumber", "Tomato", "Crackers"]
+      },
+      "restaurant": {
+        "name": "Warung Spesial",
+        "location": "Jakarta Pusat",
+        "rating": 4.9
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 2,
+      "name": "Mie Ayam Jamur",
+      "category": "Noodles",
+      "price": 25000,
+      "rating": 4.6,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 520,
+        "protein": 18,
+        "carbs": 70,
+        "fat": 12
+      },
+      "ingredients": {
+        "main": ["Noodles", "Chicken", "Mushroom", "Bok Choy"],
+        "spices": ["Garlic", "Ginger", "Soy Sauce", "Sesame Oil"],
+        "toppings": ["Fried Onion", "Spring Onion", "Pangsit"]
+      },
+      "restaurant": {
+        "name": "Mie Legenda",
+        "location": "Jakarta Selatan",
+        "rating": 4.7
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400",
+      "isVegetarian": false,
+      "isSpicy": false
+    },
+    {
+      "id": 3,
+      "name": "Sushi Roll Salmon",
+      "category": "Japanese",
+      "price": 85000,
+      "rating": 4.9,
+      "preparationTime": 25,
+      "nutrition": {
+        "calories": 450,
+        "protein": 22,
+        "carbs": 65,
+        "fat": 15
+      },
+      "ingredients": {
+        "main": ["Rice", "Salmon", "Nori", "Avocado"],
+        "spices": ["Wasabi", "Soy Sauce", "Pickled Ginger"],
+        "toppings": ["Sesame Seeds", "Salmon Roe"]
+      },
+      "restaurant": {
+        "name": "Sushi Master",
+        "location": "Jakarta Barat",
+        "rating": 4.8
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 4,
+      "name": "Gado-Gado",
+      "category": "Indonesian",
+      "price": 28000,
+      "rating": 4.5,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 480,
+        "protein": 12,
+        "carbs": 55,
+        "fat": 20
+      },
+      "ingredients": {
+        "main": ["Vegetables", "Tofu", "Tempeh", "Egg"],
+        "spices": ["Peanut Sauce", "Garlic", "Chili"],
+        "toppings": ["Crackers", "Fried Shallots"]
+      },
+      "restaurant": {
+        "name": "Rasa Nusantara",
+        "location": "Jakarta Timur",
+        "rating": 4.6
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 5,
+      "name": "Rendang Padang",
+      "category": "Indonesian",
+      "price": 45000,
+      "rating": 4.9,
+      "preparationTime": 30,
+      "nutrition": {
+        "calories": 650,
+        "protein": 28,
+        "carbs": 15,
+        "fat": 45
+      },
+      "ingredients": {
+        "main": ["Beef", "Coconut Milk", "Spice Paste"],
+        "spices": ["Lemongrass", "Galangal", "Turmeric", "Candlenut"],
+        "toppings": ["Fried Onion", "Kerupuk"]
+      },
+      "restaurant": {
+        "name": "Sederhana",
+        "location": "Jakarta Pusat",
+        "rating": 4.9
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 6,
+      "name": "Pizza Margherita",
+      "category": "Italian",
+      "price": 75000,
+      "rating": 4.7,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 850,
+        "protein": 25,
+        "carbs": 95,
+        "fat": 35
+      },
+      "ingredients": {
+        "main": ["Pizza Dough", "Tomato Sauce", "Mozzarella", "Basil"],
+        "spices": ["Oregano", "Garlic", "Olive Oil"],
+        "toppings": ["Parmesan", "Cherry Tomatoes"]
+      },
+      "restaurant": {
+        "name": "Pizza Italia",
+        "location": "Jakarta Selatan",
+        "rating": 4.7
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 7,
+      "name": "Burger Wagyu",
+      "category": "Western",
+      "price": 95000,
+      "rating": 4.8,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 900,
+        "protein": 35,
+        "carbs": 70,
+        "fat": 50
+      },
+      "ingredients": {
+        "main": ["Wagyu Beef", "Burger Bun", "Lettuce", "Cheese"],
+        "spices": ["Special Sauce", "Pickles", "Onion"],
+        "toppings": ["Bacon", "Egg", "Avocado"]
+      },
+      "restaurant": {
+        "name": "Burger Boss",
+        "location": "Jakarta Barat",
+        "rating": 4.8
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": false,
+      "isSpicy": false
+    },
+    {
+      "id": 8,
+      "name": "Tom Yum Soup",
+      "category": "Thai",
+      "price": 38000,
+      "rating": 4.6,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 320,
+        "protein": 12,
+        "carbs": 25,
+        "fat": 15
+      },
+      "ingredients": {
+        "main": ["Shrimp", "Mushroom", "Tom Yum Paste", "Coconut Milk"],
+        "spices": ["Lemongrass", "Kaffir Lime", "Galangal", "Chili"],
+        "toppings": ["Coriander", "Lime Juice"]
+      },
+      "restaurant": {
+        "name": "Thai Spice",
+        "location": "Jakarta Utara",
+        "rating": 4.5
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 9,
+      "name": "Salad Bowl Quinoa",
+      "category": "Healthy",
+      "price": 42000,
+      "rating": 4.4,
+      "preparationTime": 10,
+      "nutrition": {
+        "calories": 380,
+        "protein": 15,
+        "carbs": 45,
+        "fat": 14
+      },
+      "ingredients": {
+        "main": ["Quinoa", "Mixed Greens", "Cherry Tomatoes", "Cucumber"],
+        "spices": ["Lemon Vinaigrette", "Herbs"],
+        "toppings": ["Pumpkin Seeds", "Feta Cheese"]
+      },
+      "restaurant": {
+        "name": "Green Eat",
+        "location": "Jakarta Selatan",
+        "rating": 4.4
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 10,
+      "name": "Chicken Katsu Don",
+      "category": "Japanese",
+      "price": 42000,
+      "rating": 4.7,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 680,
+        "protein": 30,
+        "carbs": 85,
+        "fat": 22
+      },
+      "ingredients": {
+        "main": ["Chicken", "Rice", "Egg", "Katsu Sauce"],
+        "spices": ["Flour", "Breadcrumbs", "Soy Sauce"],
+        "toppings": ["Spring Onion", "Nori"]
+      },
+      "restaurant": {
+        "name": "Katsu House",
+        "location": "Jakarta Pusat",
+        "rating": 4.7
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": false,
+      "isSpicy": false
+    },
+    {
+      "id": 11,
+      "name": "Dimsum Siomay",
+      "category": "Chinese",
+      "price": 30000,
+      "rating": 4.5,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 280,
+        "protein": 12,
+        "carbs": 35,
+        "fat": 10
+      },
+      "ingredients": {
+        "main": ["Chicken", "Shrimp", "Wonton Wrapper"],
+        "spices": ["Garlic", "Sesame Oil", "White Pepper"],
+        "toppings": ["Carrot", "Fried Garlic"]
+      },
+      "restaurant": {
+        "name": "Dimsum Delight",
+        "location": "Jakarta Barat",
+        "rating": 4.5
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": false
+    },
+    {
+      "id": 12,
+      "name": "Truffle Pasta",
+      "category": "Italian",
+      "price": 125000,
+      "rating": 4.9,
+      "preparationTime": 25,
+      "nutrition": {
+        "calories": 780,
+        "protein": 20,
+        "carbs": 85,
+        "fat": 38
+      },
+      "ingredients": {
+        "main": ["Pasta", "Truffle Oil", "Mushroom", "Parmesan"],
+        "spices": ["Garlic", "Parsley", "Black Pepper"],
+        "toppings": ["Truffle Shavings", "Pine Nuts"]
+      },
+      "restaurant": {
+        "name": "Pasta Romana",
+        "location": "Jakarta Pusat",
+        "rating": 4.9
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 13,
+      "name": "Sate Ayam Madura",
+      "category": "Indonesian",
+      "price": 35000,
+      "rating": 4.7,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 520,
+        "protein": 25,
+        "carbs": 45,
+        "fat": 28
+      },
+      "ingredients": {
+        "main": ["Chicken", "Peanut Sauce", "Rice Cake"],
+        "spices": ["Sweet Soy Sauce", "Garlic", "Turmeric"],
+        "toppings": ["Fried Shallots", "Chili Sauce"]
+      },
+      "restaurant": {
+        "name": "Sate Khas Senayan",
+        "location": "Jakarta Selatan",
+        "rating": 4.8
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 14,
+      "name": "Bibimbap",
+      "category": "Korean",
+      "price": 55000,
+      "rating": 4.6,
+      "preparationTime": 20,
+      "nutrition": {
+        "calories": 620,
+        "protein": 22,
+        "carbs": 85,
+        "fat": 20
+      },
+      "ingredients": {
+        "main": ["Rice", "Vegetables", "Beef", "Egg", "Gochujang"],
+        "spices": ["Sesame Oil", "Garlic", "Soy Sauce"],
+        "toppings": ["Sesame Seeds", "Nori"]
+      },
+      "restaurant": {
+        "name": "Seoul Kitchen",
+        "location": "Jakarta Utara",
+        "rating": 4.6
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 15,
+      "name": "Vegan Burger",
+      "category": "Healthy",
+      "price": 48000,
+      "rating": 4.3,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 450,
+        "protein": 18,
+        "carbs": 60,
+        "fat": 15
+      },
+      "ingredients": {
+        "main": ["Plant-Based Patty", "Whole Grain Bun", "Lettuce"],
+        "spices": ["Vegan Mayo", "Mustard"],
+        "toppings": ["Pickles", "Onion", "Tomato"]
+      },
+      "restaurant": {
+        "name": "Vegan Haven",
+        "location": "Jakarta Selatan",
+        "rating": 4.3
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 16,
+      "name": "Pad Thai",
+      "category": "Thai",
+      "price": 45000,
+      "rating": 4.7,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 550,
+        "protein": 20,
+        "carbs": 70,
+        "fat": 18
+      },
+      "ingredients": {
+        "main": ["Rice Noodles", "Shrimp", "Tofu", "Bean Sprouts"],
+        "spices": ["Tamarind", "Fish Sauce", "Palm Sugar"],
+        "toppings": ["Peanuts", "Lime", "Chili Flakes"]
+      },
+      "restaurant": {
+        "name": "Thai Orchid",
+        "location": "Jakarta Barat",
+        "rating": 4.7
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 17,
+      "name": "Fried Calamari",
+      "category": "Seafood",
+      "price": 58000,
+      "rating": 4.5,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 480,
+        "protein": 28,
+        "carbs": 35,
+        "fat": 25
+      },
+      "ingredients": {
+        "main": ["Calamari", "Flour", "Breadcrumbs"],
+        "spices": ["Paprika", "Garlic Powder", "Salt"],
+        "toppings": ["Lemon Wedges", "Tartar Sauce"]
+      },
+      "restaurant": {
+        "name": "Sea Catch",
+        "location": "Jakarta Utara",
+        "rating": 4.5
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": false
+    },
+    {
+      "id": 18,
+      "name": "Cream Soup Broccoli",
+      "category": "Soup",
+      "price": 32000,
+      "rating": 4.4,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 280,
+        "protein": 8,
+        "carbs": 25,
+        "fat": 18
+      },
+      "ingredients": {
+        "main": ["Broccoli", "Cream", "Potato", "Onion"],
+        "spices": ["Nutmeg", "Black Pepper", "Thyme"],
+        "toppings": ["Croutons", "Parmesan"]
+      },
+      "restaurant": {
+        "name": "Soup Kitchen",
+        "location": "Jakarta Pusat",
+        "rating": 4.4
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    },
+    {
+      "id": 19,
+      "name": "Nasi Uduk Betawi",
+      "category": "Indonesian",
+      "price": 28000,
+      "rating": 4.5,
+      "preparationTime": 15,
+      "nutrition": {
+        "calories": 590,
+        "protein": 14,
+        "carbs": 80,
+        "fat": 22
+      },
+      "ingredients": {
+        "main": ["Rice", "Coconut Milk", "Fried Chicken", "Egg"],
+        "spices": ["Lemongrass", "Bay Leaf", "Galangal"],
+        "toppings": ["Fried Shallots", "Sambal", "Crackers"]
+      },
+      "restaurant": {
+        "name": "Betawi Food",
+        "location": "Jakarta Timur",
+        "rating": 4.5
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400",
+      "isVegetarian": false,
+      "isSpicy": true
+    },
+    {
+      "id": 20,
+      "name": "Matcha Latte",
+      "category": "Beverage",
+      "price": 28000,
+      "rating": 4.6,
+      "preparationTime": 5,
+      "nutrition": {
+        "calories": 220,
+        "protein": 6,
+        "carbs": 35,
+        "fat": 8
+      },
+      "ingredients": {
+        "main": ["Matcha Powder", "Milk", "Sugar Syrup"],
+        "spices": ["None"],
+        "toppings": ["Matcha Dust", "Whipped Cream"]
+      },
+      "restaurant": {
+        "name": "Matcha Cafe",
+        "location": "Jakarta Selatan",
+        "rating": 4.6
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400",
+      "isVegetarian": true,
+      "isSpicy": false
+    }
+  ]
+}
