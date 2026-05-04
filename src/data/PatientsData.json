@@ -1,0 +1,72 @@
+[
+  {
+    "patientId": "PAT-3000",
+    "patientName": "Patient Name 1",
+    "email": "patient1@example.com",
+    "phone": "+62 812-3456-8000",
+    "treatment": "Facial"
+  },
+  {
+    "patientId": "PAT-3001",
+    "patientName": "Patient Name 2",
+    "email": "patient2@example.com",
+    "phone": "+62 812-3456-8001",
+    "treatment": "Laser"
+  },
+  {
+    "patientId": "PAT-3002",
+    "patientName": "Patient Name 3",
+    "email": "patient3@example.com",
+    "phone": "+62 812-3456-8002",
+    "treatment": "Massage"
+  },
+  {
+    "patientId": "PAT-3003",
+    "patientName": "Patient Name 4",
+    "email": "patient4@example.com",
+    "phone": "+62 812-3456-8003",
+    "treatment": "Facial"
+  },
+  {
+    "patientId": "PAT-3004",
+    "patientName": "Patient Name 5",
+    "email": "patient5@example.com",
+    "phone": "+62 812-3456-8004",
+    "treatment": "Laser"
+  },
+  {
+    "patientId": "PAT-3005",
+    "patientName": "Patient Name 6",
+    "email": "patient6@example.com",
+    "phone": "+62 812-3456-8005",
+    "treatment": "Massage"
+  },
+  {
+    "patientId": "PAT-3006",
+    "patientName": "Patient Name 7",
+    "email": "patient7@example.com",
+    "phone": "+62 812-3456-8006",
+    "treatment": "Facial"
+  },
+  {
+    "patientId": "PAT-3007",
+    "patientName": "Patient Name 8",
+    "email": "patient8@example.com",
+    "phone": "+62 812-3456-8007",
+    "treatment": "Laser"
+  },
+  {
+    "patientId": "PAT-3008",
+    "patientName": "Patient Name 9",
+    "email": "patient9@example.com",
+    "phone": "+62 812-3456-8008",
+    "treatment": "Massage"
+  },
+  {
+    "patientId": "PAT-3009",
+    "patientName": "Patient Name 10",
+    "email": "patient10@example.com",
+    "phone": "+62 812-3456-8009",
+    "treatment": "Facial"
+  }
+]

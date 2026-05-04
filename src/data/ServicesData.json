@@ -1,0 +1,72 @@
+[
+  {
+    "serviceId": "SRV-5000",
+    "serviceName": "Classic Facial",
+    "category": "Facial",
+    "duration": "60",
+    "price": "Rp 350000"
+  },
+  {
+    "serviceId": "SRV-5001",
+    "serviceName": "Laser Hair Removal",
+    "category": "Laser",
+    "duration": "45",
+    "price": "Rp 750000"
+  },
+  {
+    "serviceId": "SRV-5002",
+    "serviceName": "Full Body Massage",
+    "category": "Massage",
+    "duration": "90",
+    "price": "Rp 500000"
+  },
+  {
+    "serviceId": "SRV-5003",
+    "serviceName": "Anti-Aging Facial",
+    "category": "Facial",
+    "duration": "75",
+    "price": "Rp 600000"
+  },
+  {
+    "serviceId": "SRV-5004",
+    "serviceName": "Skin Rejuvenation Laser",
+    "category": "Laser",
+    "duration": "60",
+    "price": "Rp 1200000"
+  },
+  {
+    "serviceId": "SRV-5005",
+    "serviceName": "Aromatherapy Massage",
+    "category": "Massage",
+    "duration": "60",
+    "price": "Rp 450000"
+  },
+  {
+    "serviceId": "SRV-5006",
+    "serviceName": "Acne Treatment Facial",
+    "category": "Facial",
+    "duration": "60",
+    "price": "Rp 400000"
+  },
+  {
+    "serviceId": "SRV-5007",
+    "serviceName": "Pigmentation Laser",
+    "category": "Laser",
+    "duration": "30",
+    "price": "Rp 850000"
+  },
+  {
+    "serviceId": "SRV-5008",
+    "serviceName": "Hot Stone Massage",
+    "category": "Massage",
+    "duration": "90",
+    "price": "Rp 650000"
+  },
+  {
+    "serviceId": "SRV-5009",
+    "serviceName": "Hydrating Facial",
+    "category": "Facial",
+    "duration": "45",
+    "price": "Rp 300000"
+  }
+]

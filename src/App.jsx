@@ -1,121 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { Suspense, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
+// Asset imports
+import reactLogo from "./assets/react.svg";
+// HAPUS BARIS INI: import viteLogo from "/vite.svg"; 
+import "./assets/tailwind.css";
+
+// Component & Page imports
+import Loading from "./components/Loading";
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const Header = React.lazy(() => import("./components/Header"));
+const Patients = React.lazy(() => import("./pages/Patients"));
+const Appointments = React.lazy(() => import("./pages/Appointments"));
+const Services = React.lazy(() => import("./pages/Services"));
+const ErrorPage = React.lazy(() => import("./pages/ErrorPage"));
+const Login = React.lazy(() => import("./pages/auth/Login"));
+const Register = React.lazy(() => import("./pages/auth/Register"));
+const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
+const Sidebar = React.lazy(() => import("./components/Sidebar"));
+const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
+const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
+const NotFound = React.lazy(() => import("./pages/ErrorPage"));
 
 function App() {
-  const [count, setCount] = useState(0)
+  // useState count ini bisa dihapus jika tidak digunakan di bawah
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        {/* Main Routes with Sidebar/Header */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/services" element={<Services />} />
+          
+          {/* Error Routes */}
+          <Route path="/error-400" element={<NotFound errorCode="400" errorDescription="Bad Request." />} />
+          <Route path="/error-401" element={<NotFound errorCode="401" errorDescription="Unauthorized." />} />
+          <Route path="/error-403" element={<NotFound errorCode="403" errorDescription="Forbidden." />} />
+          <Route path="*" element={<NotFound errorCode="404" errorDescription="Page not found" errorImage="/image_9dca28.jpg" />} />
+        </Route>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* Auth Routes without Sidebar */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot" element={<Forgot />} />
+        </Route>
+      </Routes>
+    </Suspense>
+  );
 }
 
-export default App
+export default App;

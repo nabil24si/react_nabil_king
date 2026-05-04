@@ -1,0 +1,72 @@
+[
+  {
+    "appointmentId": "APT-4000",
+    "patientName": "Patient Name 1",
+    "service": "Facial",
+    "date": "2025-04-01T10:00",
+    "status": "Scheduled"
+  },
+  {
+    "appointmentId": "APT-4001",
+    "patientName": "Patient Name 2",
+    "service": "Laser",
+    "date": "2025-04-01T14:00",
+    "status": "Completed"
+  },
+  {
+    "appointmentId": "APT-4002",
+    "patientName": "Patient Name 3",
+    "service": "Massage",
+    "date": "2025-04-02T09:00",
+    "status": "Cancelled"
+  },
+  {
+    "appointmentId": "APT-4003",
+    "patientName": "Patient Name 4",
+    "service": "Facial",
+    "date": "2025-04-02T11:00",
+    "status": "Scheduled"
+  },
+  {
+    "appointmentId": "APT-4004",
+    "patientName": "Patient Name 5",
+    "service": "Laser",
+    "date": "2025-04-03T15:00",
+    "status": "Completed"
+  },
+  {
+    "appointmentId": "APT-4005",
+    "patientName": "Patient Name 6",
+    "service": "Massage",
+    "date": "2025-04-03T16:00",
+    "status": "Scheduled"
+  },
+  {
+    "appointmentId": "APT-4006",
+    "patientName": "Patient Name 7",
+    "service": "Facial",
+    "date": "2025-04-04T10:00",
+    "status": "Completed"
+  },
+  {
+    "appointmentId": "APT-4007",
+    "patientName": "Patient Name 8",
+    "service": "Laser",
+    "date": "2025-04-04T13:00",
+    "status": "Scheduled"
+  },
+  {
+    "appointmentId": "APT-4008",
+    "patientName": "Patient Name 9",
+    "service": "Massage",
+    "date": "2025-04-05T09:00",
+    "status": "Cancelled"
+  },
+  {
+    "appointmentId": "APT-4009",
+    "patientName": "Patient Name 10",
+    "service": "Facial",
+    "date": "2025-04-05T11:00",
+    "status": "Scheduled"
+  }
+]
