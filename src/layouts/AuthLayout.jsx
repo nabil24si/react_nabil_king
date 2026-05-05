@@ -1,34 +1,35 @@
 import { Outlet } from "react-router-dom";
-import { FaLeaf } from "react-icons/fa";
 
 export default function AuthLayout() {
   return (
-    // Background menggunakan gradasi Earthy (Cream ke Mint/Teal pucat)
-    <div className="min-h-screen flex items-center justify-center bg-[#fcfaf9] bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#66c5b4]/10 via-[#fcfaf9] to-[#ffb686]/5 p-4">
+    // Background Putih Bersih dengan aksen radial tipis
+    <div className="min-h-screen flex items-center justify-center bg-white bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#CDEEDD]/20 via-white to-[#FFD9D0]/10 p-4 font-poppins">
       
-      {/* Card Container - Glassmorphism halus */}
-      <div className="bg-white/80 backdrop-blur-sm p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white relative overflow-hidden">
+      {/* Card Container - Fokus pada kebersihan (Pure White) */}
+      <div className="bg-white p-12 rounded-[3rem] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-gray-50 relative overflow-hidden">
         
-        {/* Dekorasi Aksen di pojok card */}
-        <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#3b7d86]/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#ffb686]/10 rounded-full blur-3xl"></div>
+        {/* Dekorasi Aksen Soft di pojok card */}
+        <div className="absolute -top-12 -right-12 w-40 h-40 bg-[#CDEEDD]/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-[#FFD9D0]/20 rounded-full blur-3xl"></div>
 
-        <div className="flex flex-col items-center justify-center mb-10 relative z-10">
-          {/* Logo Badge - Menggunakan Teal & Earthy Brown */}
-          <div className="bg-gradient-to-tr from-[#3b7d86] to-[#66c5b4] rounded-2xl p-4 mb-4 shadow-lg shadow-[#3b7d86]/30 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-            <FaLeaf className="text-white text-3xl" />
+        <div className="flex flex-col items-center justify-center mb-12 relative z-10">
+          {/* Logo Section - Mempertahankan gaya logo teks Anda */}
+          <div className="mb-4">
+            <div className="w-12 h-12 bg-[#CDEEDD] rounded-2xl flex items-center justify-center shadow-sm">
+              <div className="w-5 h-5 border-[2.5px] border-black rounded-md"></div>
+            </div>
           </div>
 
-          <h1 className="text-4xl font-poppins font-black text-[#63402f] tracking-tighter">
-            GlowCare<span className="text-[#3b7d86]">.</span>
+          <h1 className="text-3xl font-semibold text-black tracking-tight">
+            GlowCare<span className="text-[#CDEEDD]">.</span>
           </h1>
           
-          <div className="flex items-center space-x-2 mt-2">
-            <div className="h-[1px] w-4 bg-[#ffb686]"></div>
-            <p className="text-[10px] font-bold text-[#a9a9a9] uppercase tracking-[0.2em]">
+          <div className="flex items-center space-x-3 mt-3">
+            <div className="h-[1px] w-5 bg-[#FFD9D0]"></div>
+            <p className="text-[10px] font-medium text-black/30 uppercase tracking-[0.25em]">
               Professional Esthetic
             </p>
-            <div className="h-[1px] w-4 bg-[#ffb686]"></div>
+            <div className="h-[1px] w-5 bg-[#FFD9D0]"></div>
           </div>
         </div>
 
@@ -38,11 +39,11 @@ export default function AuthLayout() {
         </div>
 
         {/* Footer Copyright */}
-        <div className="mt-10 pt-6 border-t border-gray-100 relative z-10">
-          <p className="text-center text-[10px] font-bold text-[#a9a9a9] uppercase tracking-widest">
+        <div className="mt-12 pt-8 border-t border-gray-50 relative z-10 text-center">
+          <p className="text-[10px] font-semibold text-black/20 uppercase tracking-[0.2em]">
             © 2026 GlowCare System
           </p>
-          <p className="text-center text-[9px] text-gray-400 mt-1">
+          <p className="text-[9px] text-black/10 mt-1.5 font-medium tracking-wide">
             Built for premium beauty management
           </p>
         </div>

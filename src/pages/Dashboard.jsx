@@ -1,147 +1,216 @@
-import { FaUserInjured, FaCalendarCheck, FaSpa, FaDollarSign, FaHeart, FaClock, FaStar } from "react-icons/fa";
-import PageHeader from "../components/PageHeader";
+import { FaUserInjured, FaDollarSign, FaCalendarAlt, FaStethoscope, FaCheckCircle, FaSpinner, FaHistory, FaStar } from "react-icons/fa";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+
+// Data untuk Grafik Revenue
+const revenueData = [
+  { name: 'Jan', income: 5500, expenses: 2200 },
+  { name: 'Feb', income: 6100, expenses: 1800 },
+  { name: 'Mar', income: 5800, expenses: 3000 },
+  { name: 'Apr', income: 6300, expenses: 2500 },
+  { name: 'May', income: 5900, expenses: 2100 },
+  { name: 'Jun', income: 7200, expenses: 3800 },
+  { name: 'Jul', income: 7800, expenses: 3200 },
+  { name: 'Aug', income: 6500, expenses: 3900 },
+  { name: 'Sep', income: 6800, expenses: 2800 },
+  { name: 'Oct', income: 7100, expenses: 3500 },
+  { name: 'Nov', income: 8200, expenses: 4500 },
+  { name: 'Dec', income: 7900, expenses: 3800 },
+];
+
+const pieData = [
+  { name: 'New Patient', value: 45, color: '#FFB686' },
+  { name: 'In Treatment', value: 30, color: '#CDEEDD' },
+  { name: 'Recovered', value: 25, color: '#E5E7EB' },
+];
+
+const dashboardData = {
+  stats: [
+    { title: "Earnings", value: "$125,000", icon: FaDollarSign, color: "peach", trend: "+12%" },
+    { title: "Total Patients", value: "315", icon: FaUserInjured, color: "mint", trend: "+8%" },
+    { title: "Appointments", value: "250", icon: FaCalendarAlt, color: "mint", trend: "Today" },
+    { title: "Surgeries", value: "65", icon: FaStethoscope, color: "peach", trend: "Active" },
+  ],
+  patientOverview: {
+    total: 3245,
+    categories: [
+      { label: "New Patient", value: 1460, percentage: 45, color: "peach" },
+      { label: "In Treatment", value: 974, percentage: 30, color: "mint" },
+      { label: "Recovered", value: 811, percentage: 25, color: "gray" },
+    ]
+  },
+  recentPatients: [
+    { id: "PB-001", name: "Sarah Miller", treatment: "Facial Rejuvenation", doctor: "Dr. Olivia Grant", time: "2028-09-12 09:00 AM", status: "Completed" },
+    { id: "PB-002", name: "Maurice Galley", treatment: "Laser Hair Removal", doctor: "Dr. David Carter", time: "2028-09-12 12:00 PM", status: "In Progress" },
+    { id: "PB-003", name: "Julia Watson", treatment: "Botox Injections", doctor: "Dr. Emily Ross", time: "2028-09-12 02:30 PM", status: "Scheduled" },
+    { id: "PB-004", name: "Stephen Hawk", treatment: "Microdermabrasion", doctor: "Dr. James Lawson", time: "2028-09-12 04:30 PM", status: "Completed" },
+    { id: "PB-005", name: "Emma Wilson", treatment: "Chemical Peels", doctor: "Dr. Sophia Clark", time: "2028-09-13 09:30 AM", status: "In Progress" },
+  ],
+  popularTreatments: [
+    { rank: "#1", name: "Facial Rejuvenation", rating: 4.9, reviews: 2150 },
+    { rank: "#2", name: "Laser Hair Removal", rating: 4.8, reviews: 1980 },
+    { rank: "#3", name: "Botox Injections", rating: 4.7, reviews: 1750 },
+    { rank: "#4", name: "Microdermabrasion", rating: 4.6, reviews: 1500 },
+  ]
+};
+
+const StatusBadge = ({ status }) => {
+  const styles = {
+    "Completed": { bg: "bg-[#CDEEDD]/40", text: "text-black", icon: FaCheckCircle },
+    "In Progress": { bg: "bg-[#FFB686]/20", text: "text-black", icon: FaSpinner },
+    "Scheduled": { bg: "bg-gray-100", text: "text-black", icon: FaHistory },
+  };
+  const { bg, text, icon: Icon } = styles[status] || styles["Scheduled"];
+  return (
+    <span className={`flex items-center gap-1.5 ${bg} ${text} px-3 py-1.5 rounded-full text-xs`}>
+      <Icon className={status === "In Progress" ? "animate-spin" : ""} size={12} /> {status}
+    </span>
+  );
+};
 
 export default function Dashboard() {
+  const { stats, patientOverview, recentPatients, popularTreatments } = dashboardData;
+  const colorMap = {
+    peach: { bg: "bg-[#FFB686]/20", text: "text-black" },
+    mint: { bg: "bg-[#CDEEDD]/40", text: "text-black" },
+    gray: { bg: "bg-gray-100", text: "text-black" }
+  };
+
   return (
-    <div id="dashboard-container" className="flex flex-col p-6 bg-gray-50 min-h-screen">
+    <div className="grid grid-cols-1 xl:grid-cols-[2fr,1fr] gap-8 p-2 font-poppins text-black">
       
-      {/* Welcome Banner - Earthy Palette */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#63402f] to-[#3b7d86] rounded-3xl p-8 mb-8 shadow-xl shadow-[#3b7d86]/20 text-white">
-        {/* Dekorasi Aksen Lingkaran */}
-        <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-[#66c5b4]/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-[-20%] left-[-5%] w-48 h-48 bg-[#ffb686]/10 rounded-full blur-2xl"></div>
+      {/* --- LEFT COLUMN --- */}
+      <div className="space-y-10">
         
-        <div className="relative z-10"> 
-          <h1 className="text-4xl font-black mb-2 tracking-tight">Welcome to GlowCare 👋</h1>
-          <p className="text-[#ffb686] font-medium opacity-90 max-w-md">
-            Manage your beauty clinic appointments and patients with ease in a professional atmosphere.
-          </p>
+        {/* Stats Grid */}
+        <div className="grid sm:grid-cols-2 gap-6">
+          {stats.map((stat, i) => (
+            <div key={i} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`p-4 rounded-2xl ${colorMap[stat.color].bg}`}>
+                  <stat.icon className="text-2xl text-black" />
+                </div>
+                <div>
+                  <p className="text-black/50 text-xs uppercase tracking-wider">{stat.title}</p>
+                  <p className="text-black text-2xl">{stat.value}</p>
+                </div>
+              </div>
+              <span className={`text-xs ${colorMap[stat.color].bg} px-3 py-1 rounded-lg`}>{stat.trend}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Revenue Chart */}
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl text-black">Revenue</h2>
+            <div className="flex gap-4 items-center text-xs text-black/40 uppercase">
+              <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-[#CDEEDD]"></div> Income</span>
+              <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-[#FFB686]"></div> Expenses</span>
+            </div>
+          </div>
+          <div className="h-[300px] w-full text-black">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={revenueData}>
+                <defs>
+                  <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#CDEEDD" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#CDEEDD" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#000000', fontSize: 12, opacity: 0.5}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#000000', fontSize: 12, opacity: 0.5}} tickFormatter={(value) => `${value/1000}k`} />
+                <Tooltip contentStyle={{ borderRadius: '15px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
+                <Area type="monotone" dataKey="income" stroke="#34D399" fillOpacity={1} fill="url(#colorIncome)" strokeWidth={2} />
+                <Area type="monotone" dataKey="expenses" stroke="#FFB686" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Patient Status Table */}
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div className="flex justify-between mb-6">
+            <h2 className="text-xl text-black">Patient Status</h2>
+            <button className="text-sm text-black bg-gray-50 px-4 py-2 rounded-full border border-gray-100 hover:bg-gray-100 transition-colors">View All</button>
+          </div>
+          <table className="w-full">
+            <thead>
+              <tr className="text-black/30 text-[10px] uppercase tracking-widest border-b border-gray-50">
+                <th className="pb-4 text-left font-medium">Patient</th>
+                <th className="pb-4 text-left font-medium">Treatment</th>
+                <th className="pb-4 text-left font-medium">Date & Time</th>
+                <th className="pb-4 text-left font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50 text-black">
+              {recentPatients.map((p, i) => (
+                <tr key={i}>
+                  <td className="py-4"><p className="text-sm">{p.name}</p><p className="text-[10px] text-black/40">{p.id}</p></td>
+                  <td className="py-4 text-sm text-black/70">{p.treatment}</td>
+                  <td className="py-4 text-sm text-black/50">{p.time}</td>
+                  <td className="py-4"><StatusBadge status={p.status}/></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <PageHeader title="Dashboard Overview"/>
-
-      {/* Stats Cards - Earthy & Teal Mix */}
-      <div id="dashboard-grid" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      {/* --- RIGHT COLUMN --- */}
+      <div className="space-y-10">
         
-        {/* Total Patients - Peach Theme */}
-        <div className="bg-white rounded-2xl p-6 border-b-4 border-[#ffb686] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-[#ffb686]/20 rounded-xl p-3 text-[#63402f]">
-              <FaUserInjured className="text-2xl" />
+        {/* Patient Overview */}
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-black">
+          <h2 className="text-xl mb-6">Patient Overview</h2>
+          <div className="h-[200px] relative flex justify-center items-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={pieData} innerRadius={65} outerRadius={80} paddingAngle={8} dataKey="value" cornerRadius={10}>
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute flex flex-col items-center">
+              <span className="text-2xl text-black">85%</span>
+              <span className="text-[10px] text-black/40 uppercase tracking-tighter">Capacity</span>
             </div>
-            <span className="text-xs font-bold text-[#63402f] bg-[#ffb686]/30 px-2 py-1 rounded-lg">+12%</span>
           </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider">Total Patients</h3>
-          <span className="text-3xl font-black text-[#63402f]">128</span>
-        </div>
-
-        {/* Appointments Today - Teal Theme */}
-        <div className="bg-white rounded-2xl p-6 border-b-4 border-[#3b7d86] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-[#3b7d86]/10 rounded-xl p-3 text-[#3b7d86]">
-              <FaCalendarCheck className="text-2xl" />
-            </div>
-            <span className="text-xs font-bold text-[#3b7d86] bg-[#3b7d86]/10 px-2 py-1 rounded-lg">Today</span>
-          </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider">Appointments</h3>
-          <span className="text-3xl font-black text-[#63402f]">45</span>
-        </div>
-
-        {/* Services - Gray/Light Teal Theme */}
-        <div className="bg-white rounded-2xl p-6 border-b-4 border-[#a9a9a9] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-gray-100 rounded-xl p-3 text-gray-500">
-              <FaSpa className="text-2xl" />
-            </div>
-            <span className="text-xs font-bold text-gray-500 bg-gray-200 px-2 py-1 rounded-lg">Active</span>
-          </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider">Services</h3>
-          <span className="text-3xl font-black text-[#63402f]">24</span>
-        </div>
-
-        {/* Revenue - Dark Brown Theme */}
-        <div className="bg-white rounded-2xl p-6 border-b-4 border-[#63402f] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-[#63402f]/10 rounded-xl p-3 text-[#63402f]">
-              <FaDollarSign className="text-2xl" />
-            </div>
-            <span className="text-xs font-bold text-[#63402f] bg-[#63402f]/10 px-2 py-1 rounded-lg">+8.5%</span>
-          </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider">Monthly Revenue</h3>
-          <span className="text-3xl font-black text-[#63402f]">$2.5K</span>
-        </div>
-      </div>
-
-      {/* Recent Appointments Table */}
-      <div className="mb-8">
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-white px-8 py-6 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="text-xl font-black text-[#63402f] font-poppins">Recent Appointments</h2>
-            <button className="text-sm text-[#3b7d86] font-bold hover:underline">View All Schedule</button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-[#fcfaf9] text-[#a9a9a9] text-[10px] uppercase tracking-widest font-bold">
-                  <th className="px-8 py-4">Appointment ID</th>
-                  <th className="px-8 py-4">Patient Name</th>
-                  <th className="px-8 py-4">Service</th>
-                  <th className="px-8 py-4">Date & Time</th>
-                  <th className="px-8 py-4 text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm divide-y divide-gray-50">
-                {/* Row Item */}
-                <tr className="hover:bg-[#66c5b4]/5 transition-colors group">
-                  <td className="px-8 py-5 font-bold text-[#63402f]">#APT-001</td>
-                  <td className="px-8 py-5">
-                    <div className="flex items-center">
-                      <div className="w-9 h-9 rounded-full bg-[#ffb686] flex items-center justify-center text-white font-bold mr-3 shadow-sm">SN</div>
-                      <span className="font-bold text-gray-700">Siti Nurhaliza</span>
-                    </div>
-                  </td>
-                  <td className="px-8 py-5">
-                    <span className="flex items-center text-gray-600 font-medium">
-                      <FaSpa className="text-[#3b7d86] mr-2" /> Facial Treatment
-                    </span>
-                  </td>
-                  <td className="px-8 py-5 text-gray-500 italic">
-                    <div className="flex items-center">
-                      <FaClock className="mr-2 text-xs text-[#a9a9a9]" /> 2026-05-04 10:00
-                    </div>
-                  </td>
-                  <td className="px-8 py-5 text-center">
-                    <span className="bg-[#66c5b4]/20 text-[#3b7d86] px-4 py-1.5 rounded-full text-xs font-black uppercase">✓ Completed</span>
-                  </td>
-                </tr>
-                {/* Baris lain bisa diulang dengan pola yang sama */}
-              </tbody>
-            </table>
+          <div className="mt-8 space-y-4">
+            {patientOverview.categories.map((cat, i) => (
+              <div key={i} className="flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs ${colorMap[cat.color].bg}`}>
+                    {cat.percentage}%
+                  </div>
+                  <span className="text-sm text-black/60">{cat.label}</span>
+                </div>
+                <span className="text-black">{cat.value}</span>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* Quick Actions Section - Modern Glassmorphism */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
-        <h3 className="text-lg font-black text-[#63402f] mb-6 tracking-tight">Management Quick Actions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="group bg-gray-50 hover:bg-[#63402f] p-6 rounded-2xl transition-all duration-300 flex flex-col items-center">
-            <FaUserInjured className="text-2xl mb-3 text-[#3b7d86] group-hover:text-[#ffb686]" />
-            <span className="text-xs font-bold text-[#63402f] group-hover:text-white uppercase tracking-tighter">Add Patient</span>
-          </button>
-          <button className="group bg-gray-50 hover:bg-[#63402f] p-6 rounded-2xl transition-all duration-300 flex flex-col items-center">
-            <FaCalendarCheck className="text-2xl mb-3 text-[#3b7d86] group-hover:text-[#ffb686]" />
-            <span className="text-xs font-bold text-[#63402f] group-hover:text-white uppercase tracking-tighter">New Appt</span>
-          </button>
-          <button className="group bg-gray-50 hover:bg-[#63402f] p-6 rounded-2xl transition-all duration-300 flex flex-col items-center">
-            <FaSpa className="text-2xl mb-3 text-[#3b7d86] group-hover:text-[#ffb686]" />
-            <span className="text-xs font-bold text-[#63402f] group-hover:text-white uppercase tracking-tighter">Add Service</span>
-          </button>
-          <button className="group bg-gray-50 hover:bg-[#63402f] p-6 rounded-2xl transition-all duration-300 flex flex-col items-center">
-            <FaDollarSign className="text-2xl mb-3 text-[#3b7d86] group-hover:text-[#ffb686]" />
-            <span className="text-xs font-bold text-[#63402f] group-hover:text-white uppercase tracking-tighter">Reports</span>
-          </button>
+        {/* Popular Treatments */}
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-black">
+          <h2 className="text-xl mb-6">Most Popular</h2>
+          <div className="space-y-6">
+            {popularTreatments.map((t, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-sm text-black/60">
+                  {t.rank}
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm">{t.name}</p>
+                  <p className="text-[10px] text-black/40 flex items-center gap-1">
+                    <FaStar className="text-yellow-400" size={10}/> {t.rating} ({t.reviews} reviews)
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
