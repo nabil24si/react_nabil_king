@@ -8,6 +8,8 @@ import "./assets/tailwind.css";
 
 // Component & Page imports
 import Loading from "./components/Loading";
+import Products from "./pages/ProductS";
+
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Header = React.lazy(() => import("./components/Header"));
 const Patients = React.lazy(() => import("./pages/Patients"));
@@ -21,6 +23,8 @@ const Sidebar = React.lazy(() => import("./components/Sidebar"));
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
 const NotFound = React.lazy(() => import("./pages/ErrorPage"));
+const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
+
 
 function App() {
   // useState count ini bisa dihapus jika tidak digunakan di bawah
@@ -35,6 +39,9 @@ function App() {
           <Route path="/patients" element={<Patients />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/product" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          
           
           {/* Error Routes */}
           <Route path="/error-400" element={<NotFound errorCode="400" errorDescription="Bad Request." />} />

@@ -56,13 +56,13 @@ export default function Sidebar() {
               <span className="text-[15px]">Services</span>
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink to="/reviews" className={menuClass}>
+           <li>
+           <NavLink to="/product" className={menuClass}>
               <FaStar className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
-              <span className="text-[15px]">Reviews</span>
+              <span className="text-[15px]">Product</span>
             </NavLink>
-          </li>
-          <li>
+          </li> 
+          {/* <li>
             <NavLink to="/payments" className={menuClass}>
               <FaCreditCard className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
               <span className="text-[15px]">Payments</span>
