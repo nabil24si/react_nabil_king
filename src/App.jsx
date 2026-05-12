@@ -8,7 +8,7 @@ import "./assets/tailwind.css";
 
 // Component & Page imports
 import Loading from "./components/Loading";
-import Products from "./pages/ProductS";
+import Products from "./pages/Products";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Header = React.lazy(() => import("./components/Header"));
