@@ -1,4 +1,6 @@
 import { Outlet } from "react-router-dom";
+// Cek apakah ada baris seperti ini di MainLayout.jsx:
+import { Navigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
