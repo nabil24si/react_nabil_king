@@ -1,32 +1,53 @@
-// components/PatientTable.jsx
 import React from "react";
-import PatientTableRow from "./PatientTableRow";
-import PatientPagination from "./PatientPagination";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"; 
 
-export default function PatientTable({ patients }) {
+// 1. PASTIKAN ada kurung kurawal { patients = [] } untuk destructuring props
+// Kita beri nilai default "= []" (array kosong) jika datanya undefined
+export default function PatientTable({ patients = [] }) {
   return (
-    <div className="bg-white rounded-[32px] shadow-sm overflow-hidden border border-gray-100 mt-8">
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-left text-sm">
-          <thead className="text-black/30 font-medium uppercase tracking-widest text-[10px] border-b border-gray-50">
-            <tr>
-              <th className="px-8 py-6 font-medium">Patient ID</th>
-              <th className="px-8 py-6 font-medium">Name</th>
-              <th className="px-8 py-6 font-medium">Email</th>
-              <th className="px-8 py-6 font-medium">Phone</th>
-              <th className="px-8 py-6 font-medium text-right">Treatment</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-50">
-            {patients.map((patient, idx) => (
-              <PatientTableRow key={patient.patientId || idx} patient={patient} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-      
-      {/* Bagian Pagination */}
-      <PatientPagination />
+    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm mt-6 overflow-hidden">
+      <Table>
+        <TableHeader className="bg-gray-50">
+          <TableRow>
+            <TableHead className="w-[120px] font-semibold text-gray-700">Patient ID</TableHead>
+            <TableHead className="font-semibold text-gray-700">Name</TableHead>
+            <TableHead className="font-semibold text-gray-700">Email</TableHead>
+            <TableHead className="font-semibold text-gray-700">Phone</TableHead>
+            <TableHead className="text-right font-semibold text-gray-700">Treatment</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {/* 2. Gunakan optional chaining (?.) untuk memastikan aplikasi tidak crash */}
+          {patients?.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={5} className="h-24 text-center text-gray-500">
+                No patients found.
+              </TableCell>
+            </TableRow>
+          ) : (
+            patients?.map((patient, index) => (
+              <TableRow key={patient.patientId || index} className="hover:bg-gray-50/50 transition-colors">
+                <TableCell className="font-medium text-gray-600">{patient.patientId}</TableCell>
+                <TableCell className="font-medium text-gray-900">{patient.patientName}</TableCell>
+                <TableCell className="text-gray-600">{patient.email}</TableCell>
+                <TableCell className="text-gray-600">{patient.phone}</TableCell>
+                <TableCell className="text-right">
+                  <span className="inline-block bg-[#CDEEDD]/50 text-emerald-800 text-xs px-3 py-1 rounded-full font-medium">
+                    {patient.treatment}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
     </div>
   );
 }
