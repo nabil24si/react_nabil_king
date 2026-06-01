@@ -1,51 +1,64 @@
-import React from 'react';
-import { FaCheckCircle, FaSpinner, FaHistory } from "react-icons/fa";
+import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"; // Sesuaikan path alias-mu
 
-// Sub-component StatusBadge diletakkan di sini karena hanya dipakai oleh tabel ini
-const StatusBadge = ({ status }) => {
-  const styles = {
-    "Completed": { bg: "bg-[#CDEEDD]/40", text: "text-black", icon: FaCheckCircle },
-    "In Progress": { bg: "bg-[#FFB686]/20", text: "text-black", icon: FaSpinner },
-    "Scheduled": { bg: "bg-gray-100", text: "text-black", icon: FaHistory },
+export default function PatientStatusTable({ recentPatients = [] }) {
+  
+  // Helper styling untuk status badge agar lebih ciamik
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case "Completed":
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
+      case "In Progress":
+        return "bg-amber-50 text-amber-700 border-amber-200";
+      case "Scheduled":
+        return "bg-blue-50 text-blue-700 border-blue-200";
+      default:
+        return "bg-gray-50 text-gray-700 border-gray-200";
+    }
   };
-  const { bg, text, icon: Icon } = styles[status] || styles["Scheduled"];
-  return (
-    <span className={`flex items-center gap-1.5 ${bg} ${text} px-3 py-1.5 rounded-full text-xs`}>
-      <Icon className={status === "In Progress" ? "animate-spin" : ""} size={12} /> {status}
-    </span>
-  );
-};
 
-export default function PatientStatusTable({ recentPatients }) {
   return (
-    <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-      <div className="flex justify-between mb-6">
-        <h2 className="text-xl text-black">Patient Status</h2>
-        <button className="text-sm text-black bg-gray-50 px-4 py-2 rounded-full border border-gray-100 hover:bg-gray-100 transition-colors">View All</button>
+    <div className="p-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">Recent Appointments</h3>
+        <span className="text-xs text-gray-500 font-medium">Live Updates</span>
       </div>
-      <table className="w-full">
-        <thead>
-          <tr className="text-black/30 text-[10px] uppercase tracking-widest border-b border-gray-50">
-            <th className="pb-4 text-left font-medium">Patient</th>
-            <th className="pb-4 text-left font-medium">Treatment</th>
-            <th className="pb-4 text-left font-medium">Date & Time</th>
-            <th className="pb-4 text-left font-medium">Status</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-50 text-black">
-          {recentPatients.map((p, i) => (
-            <tr key={i}>
-              <td className="py-4">
-                <p className="text-sm">{p.name}</p>
-                <p className="text-[10px] text-black/40">{p.id}</p>
-              </td>
-              <td className="py-4 text-sm text-black/70">{p.treatment}</td>
-              <td className="py-4 text-sm text-black/50">{p.time}</td>
-              <td className="py-4"><StatusBadge status={p.status}/></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <div className="overflow-hidden rounded-xl border border-gray-100">
+        <Table>
+          <TableHeader className="bg-gray-50/70">
+            <TableRow>
+              <TableHead className="font-semibold text-gray-700">ID</TableHead>
+              <TableHead className="font-semibold text-gray-700">Patient</TableHead>
+              <TableHead className="font-semibold text-gray-700">Treatment</TableHead>
+              <TableHead className="font-semibold text-gray-700">Doctor</TableHead>
+              <TableHead className="text-right font-semibold text-gray-700">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {recentPatients.map((patient) => (
+              <TableRow key={patient.id} className="hover:bg-gray-50/40 transition-colors">
+                <TableCell className="font-medium text-gray-500 text-xs">{patient.id}</TableCell>
+                <TableCell className="font-semibold text-gray-900">{patient.name}</TableCell>
+                <TableCell className="text-gray-600 text-sm">{patient.treatment}</TableCell>
+                <TableCell className="text-gray-500 text-sm">{patient.doctor}</TableCell>
+                <TableCell className="text-right">
+                  <span className={`inline-block text-xs px-2.5 py-1 rounded-full font-medium border ${getStatusStyle(patient.status)}`}>
+                    {patient.status}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

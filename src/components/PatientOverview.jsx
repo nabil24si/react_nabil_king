@@ -1,43 +1,38 @@
-import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-
-const pieData = [
-  { name: 'New Patient', value: 45, color: '#FFB686' },
-  { name: 'In Treatment', value: 30, color: '#CDEEDD' },
-  { name: 'Recovered', value: 25, color: '#E5E7EB' },
-];
+import React from "react";
+import { Progress } from "@/components/ui/progress"; // Sesuaikan dengan path alias-mu
 
 export default function PatientOverview({ patientOverview, colorMap }) {
+  const { total, categories } = patientOverview;
+
   return (
-    <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-black">
-      <h2 className="text-xl mb-6">Patient Overview</h2>
-      <div className="h-[200px] relative flex justify-center items-center">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie data={pieData} innerRadius={65} outerRadius={80} paddingAngle={8} dataKey="value" cornerRadius={10}>
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="absolute flex flex-col items-center">
-          <span className="text-2xl text-black">85%</span>
-          <span className="text-[10px] text-black/40 uppercase tracking-tighter">Capacity</span>
-        </div>
+    <div className="p-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">Patient Overview</h3>
+      <div className="mb-6">
+        <span className="text-3xl font-bold text-gray-900">{total.toLocaleString()}</span>
+        <span className="text-sm text-gray-500 ml-2">Total Patients</span>
       </div>
-      <div className="mt-8 space-y-4">
-        {patientOverview.categories.map((cat, i) => (
-          <div key={i} className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs ${colorMap[cat.color].bg}`}>
-                {cat.percentage}%
+
+      <div className="space-y-5">
+        {categories.map((category, index) => {
+          // Ambil warna background dasar dari colorMap
+          const baseColor = colorMap[category.color]?.bg || "bg-gray-100";
+          
+          return (
+            <div key={index} className="space-y-2">
+              <div className="flex justify-between text-sm font-medium">
+                <span className="text-gray-600">{category.label}</span>
+                <span className="text-gray-900">{category.value} ({category.percentage}%)</span>
               </div>
-              <span className="text-sm text-black/60">{cat.label}</span>
+              
+              {/* IMPLEMENTASI SHADCN UI PROGRESS */}
+              {/* Tips: Kita override warna indikatornya menggunakan inline class Tailwind */}
+              <Progress 
+                value={category.percentage} 
+                className={`h-2 w-full bg-gray-100 [&>div]:${baseColor.replace('/40', '').replace('/20', '')}`} 
+              />
             </div>
-            <span className="text-black">{cat.value}</span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

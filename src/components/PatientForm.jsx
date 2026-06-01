@@ -1,66 +1,101 @@
-// components/PatientForm.jsx
 import React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"; // Sesuaikan path alias jika berbeda
 
 export default function PatientForm({ formData, onChange, onSubmit }) {
-  const labelClass = "text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest";
-  const inputClass = "w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all text-black";
+  
+  // Karena Shadcn Select mengembalikan nilai langsung (bukan event object),
+  // kita manipulasi sedikit agar tetap sinkron dengan fungsi handleInputChange di Patients.jsx
+  const handleSelectChange = (value) => {
+    onChange({
+      target: {
+        name: "treatment",
+        value: value,
+      },
+    });
+  };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
-      <div className="space-y-1.5">
-        <label className={labelClass}>Full Name</label>
-        <input 
-          type="text" name="patientName" value={formData.patientName} onChange={onChange} required 
-          className={inputClass} placeholder="John Doe" 
+    <form onSubmit={onSubmit} className="space-y-4">
+      <div>
+        <label className="text-sm font-medium text-gray-700">Patient ID</label>
+        <input
+          type="text"
+          name="patientId"
+          value={formData.patientId}
+          onChange={onChange}
+          placeholder="e.g. PAT-3010"
+          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
+          required
         />
-      </div>
-      
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label className={labelClass}>Patient ID</label>
-          <input 
-            type="text" name="patientId" value={formData.patientId} onChange={onChange} required 
-            className={inputClass} placeholder="PB-001" 
-          />
-        </div>
-        <div className="space-y-1.5">
-          <label className={labelClass}>Phone</label>
-          <input 
-            type="text" name="phone" value={formData.phone} onChange={onChange} required 
-            className={inputClass} placeholder="0812..." 
-          />
-        </div>
-      </div>
-      
-      <div className="space-y-1.5">
-        <label className={labelClass}>Email Address</label>
-        <input 
-          type="email" name="email" value={formData.email} onChange={onChange} required 
-          className={inputClass} placeholder="name@mail.com" 
-        />
-      </div>
-      
-      <div className="space-y-1.5">
-        <label className={labelClass}>Treatment Category</label>
-        <select 
-          name="treatment" value={formData.treatment} onChange={onChange} 
-          className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all cursor-pointer text-black"
-        >
-          <option value="Facial Rejuvenation">Facial Rejuvenation</option>
-          <option value="Laser Hair Removal">Laser Hair Removal</option>
-          <option value="Botox Injections">Botox Injections</option>
-          <option value="Body Contouring">Body Contouring</option>
-        </select>
       </div>
 
-      <div className="pt-6">
-        <button 
-          type="submit" 
-          className="w-full py-4 bg-[#CDEEDD] text-black rounded-2xl hover:bg-[#B8E2CC] font-medium shadow-xl shadow-[#CDEEDD]/20 transition-all duration-300"
-        >
-          Save Patient Data
-        </button>
+      <div>
+        <label className="text-sm font-medium text-gray-700">Patient Name</label>
+        <input
+          type="text"
+          name="patientName"
+          value={formData.patientName}
+          onChange={onChange}
+          placeholder="Full Name"
+          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
+          required
+        />
       </div>
+
+      <div>
+        <label className="text-sm font-medium text-gray-700">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={onChange}
+          placeholder="name@example.com"
+          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium text-gray-700">Phone</label>
+        <input
+          type="text"
+          name="phone"
+          value={formData.phone}
+          onChange={onChange}
+          placeholder="+62 8..."
+          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium text-gray-700">Treatment</label>
+        {/* IMPLEMENTASI SHADCN UI SELECT */}
+        <Select value={formData.treatment} onValueChange={handleSelectChange}>
+          <SelectTrigger className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CDEEDD]">
+            <SelectValue placeholder="Select Treatment" />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            <SelectItem value="Facial">Facial</SelectItem>
+            <SelectItem value="Laser">Laser</SelectItem>
+            <SelectItem value="Massage">Massage</SelectItem>
+            <SelectItem value="Facial Rejuvenation">Facial Rejuvenation</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black font-medium py-3 rounded-xl mt-6 transition-all duration-300"
+      >
+        Save Patient
+      </button>
     </form>
   );
 }
