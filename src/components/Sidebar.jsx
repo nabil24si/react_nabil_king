@@ -1,3 +1,4 @@
+import { AiOutlineUser } from "react-icons/ai"; 
 import { FaHome, FaUserInjured, FaSpa, FaCalendarAlt, FaPlus, FaBan, FaUserMd, FaStar, FaCreditCard, FaRegEnvelope } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -27,7 +28,7 @@ export default function Sidebar() {
       <div id="sidebar-menu" className="flex-1 overflow-y-auto custom-scrollbar">
         <ul id="menu-list" className="space-y-1">
           <li>
-            <NavLink to="/" className={menuClass}>
+            <NavLink to="/dashboard" className={menuClass}>
               <FaHome className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
               <span className="text-[15px]">Dashboard</span>
             </NavLink>
@@ -62,18 +63,12 @@ export default function Sidebar() {
               <span className="text-[15px]">Product</span>
             </NavLink>
           </li> 
-          {/* <li>
-            <NavLink to="/payments" className={menuClass}>
-              <FaCreditCard className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
-              <span className="text-[15px]">Payments</span>
+          <li>
+            <NavLink to="/users" className={menuClass}>
+              <AiOutlineUser className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
+              <span className="text-[15px]">Users</span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/messages" className={menuClass}>
-              <FaRegEnvelope className="mr-4 text-lg opacity-70 group-hover:opacity-100" /> 
-              <span className="text-[15px]">Messages</span>
-            </NavLink>
-          </li> */}
           
           {/* Divider System */}
           <div className="pt-8 pb-3 px-5 text-[9px] font-semibold text-black/20 uppercase tracking-[0.25em]">

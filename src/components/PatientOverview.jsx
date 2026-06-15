@@ -28,7 +28,8 @@ export default function PatientOverview({ patientOverview, colorMap }) {
               {/* Tips: Kita override warna indikatornya menggunakan inline class Tailwind */}
               <Progress 
                 value={category.percentage} 
-                className={`h-2 w-full bg-gray-100 [&>div]:${baseColor.replace('/40', '').replace('/20', '')}`} 
+                className={`h-2 w-full bg-gray-100 [&>div]:
+                  ${baseColor.replace('/40', '').replace('/20', '')}`} 
               />
             </div>
           );

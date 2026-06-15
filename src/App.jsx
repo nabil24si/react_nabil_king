@@ -10,6 +10,8 @@ import "./assets/tailwind.css";
 import Loading from "./components/Loading";
 import Products from "./pages/Products";
 
+
+const GuestDashboard = React.lazy(() => import("./pages/GuestDashboard"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Header = React.lazy(() => import("./components/Header"));
 const Patients = React.lazy(() => import("./pages/Patients"));
@@ -18,6 +20,7 @@ const Services = React.lazy(() => import("./pages/Services"));
 const ErrorPage = React.lazy(() => import("./pages/ErrorPage"));
 const Login = React.lazy(() => import("./pages/auth/Login"));
 const Register = React.lazy(() => import("./pages/auth/Register"));
+const Users = React.lazy(() => import("./pages/Users"));
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
 const Sidebar = React.lazy(() => import("./components/Sidebar"));
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
@@ -33,13 +36,16 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
+        <Route path="/" element={<GuestDashboard/>} />
         {/* Main Routes with Sidebar/Header */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/patients" element={<Patients />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/services" element={<Services />} />
           <Route path="/product" element={<Products />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           
           

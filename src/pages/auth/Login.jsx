@@ -1,14 +1,26 @@
+// Login.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; 
 import axios from "axios";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineEye } from "react-icons/hi";
 
+// Konfigurasi endpoint Supabase
+const API_URL = "https://qovurxrovzstbawkswnj.supabase.co/rest/v1/users";
+const API_KEY = "sb_publishable_JGk5Hx18sBrMOWwxuQ6Ztg_xID5Yepl";
+
+const headers = {
+  apikey: API_KEY,
+  Authorization: `Bearer ${API_KEY}`,
+  "Content-Type": "application/json",
+};
+
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
   const [dataForm, setDataForm] = useState({
     email: "",
     password: "",
@@ -27,45 +39,51 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    axios
-      .post("https://dummyjson.com/user/login", {
-        username: dataForm.email,
-        password: dataForm.password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        setError(err.response?.data?.message || "Invalid credentials");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      // Mengambil data dengan filter email dan password dari Supabase
+      const response = await axios.get(
+        `${API_URL}?email=eq.${dataForm.email}&password=eq.${dataForm.password}`,
+        { headers }
+      );
+
+      if (response.data && response.data.length > 0) {
+        const userLoggedIn = response.data[0];
+        // Simpan session user ke localStorage
+        localStorage.setItem("user_session", JSON.stringify(userLoggedIn));
+        // Redirect ke halaman utama tanpa perlu refresh manual
+        navigate("/dashboard");
+      } else {
+        setError("Email atau password yang Anda masukkan salah.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Terjadi kesalahan pada server database.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto font-poppins">
-      {/* Header Text sesuai gambar */}
+    <div className="w-full max-w-sm mx-auto font-poppins pt-12">
+      {/* Header Text */}
       <div className="text-center mb-8">
         <h2 className="text-2xl font-semibold text-black mb-2">Welcome back</h2>
         <p className="text-sm text-black/40">Sign in to your account to continue</p>
       </div>
 
-      {/* Error Info - Menggunakan aksen Salmon */}
+      {/* Error Info */}
       {error && (
         <div className="bg-[#FFD9D0]/20 mb-6 p-4 text-xs font-medium text-black rounded-xl flex items-center border border-[#FFD9D0]/40 animate-shake">
-          <BsFillExclamationDiamondFill className="text-black/60 me-3 text-lg" />
-          {error}
+          <BsFillExclamationDiamondFill className="text-black/60 me-3 text-lg shrink-0" />
+          <span>{error}</span>
         </div>
       )}
 
-      {/* Loading Info - Menggunakan aksen Mint */}
+      {/* Loading Info */}
       {loading && (
         <div className="bg-[#CDEEDD]/30 mb-6 p-4 text-xs font-medium text-black rounded-xl flex items-center border border-[#CDEEDD]/50">
-          <ImSpinner2 className="me-3 animate-spin text-lg text-black/60" />
-          Authenticating... Please wait
+          <ImSpinner2 className="me-3 animate-spin text-lg text-black/60 shrink-0" />
+          <span>Authenticating... Please wait</span>
         </div>
       )}
 
@@ -80,13 +98,14 @@ export default function Login() {
               <HiOutlineMail size={20} />
             </div>
             <input
-              type="text"
-              name="email"
+              type="email"
+              name="email" // Menggunakan name untuk handleChange
               value={dataForm.email}
               onChange={handleChange}
               className="w-full pl-11 pr-5 py-3.5 bg-gray-50 border border-transparent rounded-xl text-sm focus:bg-white focus:border-[#CDEEDD] focus:ring-4 focus:ring-[#CDEEDD]/20 transition-all outline-none placeholder-black/20"
               placeholder="Enter your email"
               required
+              disabled={loading}
             />
           </div>
         </div>
@@ -101,16 +120,21 @@ export default function Login() {
               <HiOutlineLockClosed size={20} />
             </div>
             <input
-              type="password"
-              name="password"
+              type={showPassword ? "text" : "password"}
+              name="password" // Menggunakan name untuk handleChange
               value={dataForm.password}
               onChange={handleChange}
               className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-transparent rounded-xl text-sm focus:bg-white focus:border-[#CDEEDD] focus:ring-4 focus:ring-[#CDEEDD]/20 transition-all outline-none placeholder-black/20"
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
-            <button type="button" className="absolute inset-y-0 right-0 pr-4 flex items-center text-black/20 hover:text-black transition-colors">
-              <HiOutlineEye size={20} />
+            <button 
+              type="button" 
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-black/20 hover:text-black transition-colors"
+            >
+              <HiOutlineEye size={20} className={showPassword ? "text-emerald-600" : ""} />
             </button>
           </div>
         </div>
@@ -129,7 +153,7 @@ export default function Login() {
           </button>
         </div>
 
-        {/* Sign In Button - Full Black sesuai gambar */}
+        {/* Sign In Button */}
         <button
           type="submit"
           disabled={loading}
@@ -139,10 +163,16 @@ export default function Login() {
         </button>
       </form>
 
-      {/* Sign Up Link */}
+      {/* Sign Up Link - Berada di dalam pembungkus komponen utama */}
       <div className="mt-10 text-center">
         <p className="text-sm text-black/40 font-medium">
-          Don't have an account? <span className="text-black font-bold cursor-pointer hover:underline underline-offset-4">Sign up</span>
+          Don't have an account?{" "}
+          <Link 
+            to="/register" 
+            className="text-black font-bold cursor-pointer hover:underline underline-offset-4"
+          >
+            Sign up
+          </Link>
         </p>
       </div>
     </div>
