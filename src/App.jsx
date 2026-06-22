@@ -12,6 +12,7 @@ import Products from "./pages/Products";
 
 
 const GuestDashboard = React.lazy(() => import("./pages/GuestDashboard"));
+const MemberDashboard = React.lazy(() => import("./pages/MemberDashboard"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Header = React.lazy(() => import("./components/Header"));
 const Patients = React.lazy(() => import("./pages/Patients"));
@@ -37,6 +38,7 @@ function App() {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<GuestDashboard/>} />
+        <Route path="/member" element={<MemberDashboard />} />
         {/* Main Routes with Sidebar/Header */}
         <Route element={<MainLayout />}>
           

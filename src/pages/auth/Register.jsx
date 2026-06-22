@@ -67,7 +67,7 @@ export default function Register() {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-
+ 
     } catch (err) {
       setError(err.response?.data?.message || `Gagal mendaftar: ${err.message}`);
     } finally {
