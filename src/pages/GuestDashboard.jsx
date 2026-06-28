@@ -453,7 +453,40 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          5. NEW SECTION: PRODUCTS & BEST SELLERS
+          6. OUR PROCESS — NEW SECTION
+         ========================================== */}
+      <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <span className="inline-flex items-center bg-[#FFF0EC] border border-[#FFE4DC] px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase text-[#E5806A] shadow-sm">
+            OUR PROCESS
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-serif text-[#12243A] pt-4">
+            Langkah Mudah Menuju <span className="text-gradient-coral italic font-bold">Kulit Impian</span>
+          </h2>
+          <p className="text-sm text-slate-500 font-medium pt-2">Empat langkah sederhana untuk memulai perjalanan kecantikan Anda bersama GlowCare.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { step: "01", icon: HiOutlineCalendar, title: "Konsultasi Online", desc: "Jadwalkan konsultasi via video call dengan dokter kami" },
+            { step: "02", icon: HiOutlineShieldCheck, title: "Diagnosa Kulit", desc: "Analisis kulit menyeluruh dengan teknologi AI terkini" },
+            { step: "03", icon: HiOutlineSparkles, title: "Treatment Premium", desc: "Nikmati perawatan eksklusif yang dipersonalisasi" },
+            { step: "04", icon: HiOutlineBadgeCheck, title: "Hasil Memukau", desc: "Dapatkan kulit sehat bercahaya yang Anda impikan" }
+          ].map((item, idx) => (
+            <motion.div key={idx} variants={fadeUp} className="text-center p-8 bg-[#FDFCFA] rounded-[2.5rem] border border-[rgba(229,128,106,0.15)] shadow-sm hover:-translate-y-2 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+              <div className="absolute top-4 right-6 text-6xl font-serif font-bold text-[#E5806A]/10 select-none">{item.step}</div>
+              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-2xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                <item.icon size={28} />
+              </div>
+              <h4 className="font-bold text-lg text-[#12243A] mb-3">{item.title}</h4>
+              <p className="text-sm text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ==========================================
+          7. NEW SECTION: PRODUCTS & BEST SELLERS
          ========================================== */}
       <motion.section id="products" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
@@ -491,7 +524,7 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          6. NEW SECTION: MEMBERSHIP TIERS (LOYALTY)
+          8. MEMBERSHIP TIERS (LOYALTY)
          ========================================== */}
       <motion.section id="membership" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 pb-24 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
@@ -529,7 +562,7 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          7. BEFORE & AFTER GALLERY
+          9. BEFORE & AFTER GALLERY
          ========================================== */}
       <motion.section id="results" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 bg-white border border-slate-100 rounded-[40px] shadow-sm relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
@@ -562,24 +595,24 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          8. TESTIMONIALS (Desain Diperbarui Sesuai Referensi)
+          8. TESTIMONIALS — REDESIGN
          ========================================== */}
       <motion.section id="testimonials" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
           <span className="text-[10px] font-black uppercase tracking-widest text-[#E5806A] bg-[#FFF0EC] px-4 py-2 rounded-full border border-[#FFE4DC]">TESTIMONI</span>
-          <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#12243A]">Cerita dari <span className="text-[#E5806A] italic">Klien</span> Kami</h2>
+          <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#12243A]">Cerita dari <span className="text-gradient-coral italic font-bold">Klien</span> Kami</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testi) => (
-            <motion.div key={testi.id} variants={fadeUp} whileHover={{ y: -10 }} className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 flex flex-col justify-between relative overflow-hidden">
-              <div className="absolute top-8 left-8 text-6xl text-[#12243A]/10 font-serif leading-none z-0">“</div>
+            <motion.div key={testi.id} variants={fadeUp} className="bg-[#FDFCFA] p-10 rounded-[3rem] shadow-sm border border-[rgba(255,228,220,0.5)] hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
+              <div className="absolute top-8 left-8 text-5xl text-[#E5806A]/10 font-serif leading-none z-0">“</div>
               <div className="relative z-10 pt-4">
                 <div className="flex text-amber-400 text-sm mb-6"><HiStar/><HiStar/><HiStar/><HiStar/><HiStar/></div>
                 <p className="text-sm text-slate-600 font-medium italic leading-relaxed mb-10">"{testi.text}"</p>
               </div>
-              <div className="flex items-center gap-4 relative z-10 border-t border-slate-100 pt-6">
-                <img src={testi.avatar} alt={testi.name} className="w-12 h-12 rounded-full object-cover shadow-sm" />
+              <div className="flex items-center gap-4 relative z-10 border-t border-[#FFE4DC] pt-6">
+                <img src={testi.avatar} alt={testi.name} className="w-14 h-14 rounded-full object-cover shadow-sm border-2 border-[#FFE4DC]" />
                 <div>
                   <h4 className="font-bold text-[#12243A] text-sm">{testi.name}</h4>
                   <p className="text-[10px] font-bold text-[#E5806A] uppercase tracking-widest mt-0.5">{testi.role}</p>
@@ -591,7 +624,41 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          9. DOCTORS & FAQ (Update Tombol Dokter)
+          9. GALLERY PREVIEW — NEW SECTION
+         ========================================== */}
+      <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <span className="inline-flex items-center bg-[#FFF0EC] border border-[#FFE4DC] px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase text-[#E5806A] shadow-sm">
+            GALLERY
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-serif text-[#12243A] pt-4">
+            Inspirasi <span className="text-gradient-coral italic font-bold">Kecantikan</span> Dari Kami
+          </h2>
+          <p className="text-sm text-slate-500 font-medium pt-2">Lihat sendiri hasil dan suasana perawatan di GlowCare Clinic.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80"
+          ].map((url, idx) => (
+            <motion.div key={idx} variants={fadeUp} className="relative rounded-[2rem] overflow-hidden group cursor-pointer aspect-[4/5]">
+              <img src={url} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-[#12243A]/0 group-hover:bg-[#12243A]/40 transition-all duration-500"></div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                <HiOutlineSparkles className="text-white text-3xl" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ==========================================
+          11. DOCTORS & FAQ
          ========================================== */}
       <motion.section id="doctors" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 pt-10 pb-20 relative z-10">
         <div className="bg-[#12243A] rounded-[3rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative shadow-2xl">
@@ -628,7 +695,7 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          10. CRM LEAD GENERATION (NEWSLETTER)
+          12. CRM LEAD GENERATION (NEWSLETTER)
          ========================================== */}
       <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-4xl mx-auto px-6 sm:px-8 mb-20 relative z-10">
         <div className="bg-white rounded-[3rem] p-10 sm:p-14 shadow-lg border border-slate-100 text-center relative overflow-hidden">
@@ -652,28 +719,28 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          11. GRAND FINAL CONVERSION BANNER
+          12. GRAND FINAL CONVERSION BANNER — REDESIGN
          ========================================== */}
       <motion.section id="booking-cta" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-5xl mx-auto px-6 sm:px-8 mb-32 relative z-10">
-        <div className="w-full bg-[#12243A] rounded-[3rem] p-12 sm:p-20 relative overflow-hidden shadow-2xl text-center flex flex-col items-center border border-slate-800">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-[#E5806A]/20 to-transparent rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="w-full bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-[3rem] p-12 sm:p-20 relative overflow-hidden shadow-2xl text-center flex flex-col items-center">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-          <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 5 }} className="w-16 h-16 mb-6 text-[#E5806A] flex items-center justify-center relative z-10 bg-[#FFF0EC]/10 rounded-2xl backdrop-blur-sm border border-[#E5806A]/20">
-            <HiOutlineSparkles className="w-8 h-8" />
+          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="w-16 h-16 mb-6 text-white flex items-center justify-center relative z-10 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+            <HiOutlineSparkles className="w-8 h-8 animate-pulse" />
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl font-serif font-bold text-white mb-2 relative z-10 tracking-tight">Mulai Transformasi</h2>
-          <h2 className="text-4xl sm:text-5xl font-serif font-bold italic text-[#E5806A] mb-6 relative z-10 tracking-tight">Eksklusif Anda</h2>
+          <h2 className="text-4xl sm:text-5xl font-serif font-bold italic text-white/90 mb-6 relative z-10 tracking-tight">Eksklusif Anda</h2>
           
-          <p className="text-sm text-slate-300 font-medium max-w-lg mx-auto leading-relaxed relative z-10 mb-10">
+          <p className="text-sm text-white/80 font-medium max-w-lg mx-auto leading-relaxed relative z-10 mb-10">
             Jadwalkan konsultasi Anda bersama kami dan rasakan perawatan berstandar internasional dengan hasil yang memukau.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10 w-full sm:w-auto">
-            <motion.button onClick={() => showToast("Silakan Daftar/Masuk ke Dashboard Member untuk memulai reservasi.")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto bg-[#E5806A] hover:bg-[#D46B54] text-white text-sm font-bold px-10 py-4.5 rounded-full shadow-xl shadow-[#E5806A]/30 transition-colors flex items-center justify-center gap-2">
-              Mulai Reservasi <HiOutlineArrowRight size={18} />
+            <motion.button onClick={() => showToast("Silakan Daftar/Masuk ke Dashboard Member untuk memulai reservasi.")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto bg-white text-[#12243A] hover:bg-[#FFF0EC] text-sm font-bold px-10 py-4.5 rounded-full shadow-xl transition-colors flex items-center justify-center gap-2">
+              Booking Konsultasi <HiOutlineArrowRight size={18} />
             </motion.button>
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/6285767858151" target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-transparent border border-white/30 hover:border-white hover:bg-white/5 text-white text-sm font-bold px-8 py-4.5 rounded-full transition-colors flex items-center justify-center gap-3">
+            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/6285767858151" target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-transparent border border-white/40 hover:border-white text-white text-sm font-bold px-8 py-4.5 rounded-full transition-colors flex items-center justify-center gap-3">
               <HiOutlinePhone size={18} /> Hubungi Concierge
             </motion.a>
           </div>
@@ -681,7 +748,7 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          12. FOOTER — REDESIGN SOFT ELEGANT
+          14. FOOTER — REDESIGN SOFT ELEGANT
          ========================================== */}
       <footer id="footer" className="bg-[#F5EFE6] pt-20 pb-10 relative z-10 border-t border-[rgba(18,36,58,0.08)]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm text-slate-500 mb-16">
