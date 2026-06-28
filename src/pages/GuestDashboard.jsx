@@ -112,9 +112,62 @@ export default function GuestDashboard() {
   return (
     <div className="w-full min-h-screen bg-[#F2F6F4] font-sans text-[#12243A] overflow-x-hidden selection:bg-[#E5806A] selection:text-white scroll-smooth relative">
       
+      {/* --- GLOBAL STYLE: CSS VARIABLES & ANIMATIONS --- */}
+      <style>{`
+        :root {
+          --primary: #E5806A;
+          --primary-dark: #D46B54;
+          --navy: #12243A;
+          --cream: #F2F6F4;
+          --soft-peach: #FFF0EC;
+          --blush-border: #FFE4DC;
+        }
+        .text-gradient-coral {
+          background: linear-gradient(135deg, #E5806A, #ff9b86);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(20px); }
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-slow {
+          animation: float-slow 5s ease-in-out infinite;
+        }
+        @keyframes mesh-blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(30px, -20px) scale(1.1); }
+          50% { transform: translate(-20px, 30px) scale(0.9); }
+          75% { transform: translate(20px, 20px) scale(1.05); }
+        }
+        .mesh-blob {
+          animation: mesh-blob 20s ease-in-out infinite;
+        }
+        .mesh-blob-2 {
+          animation: mesh-blob 25s ease-in-out infinite reverse;
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .shimmer-badge {
+          background: linear-gradient(90deg, transparent, rgba(229, 128, 106, 0.1), transparent);
+          background-size: 200% 100%;
+          animation: shimmer 3s ease-in-out infinite;
+        }
+      `}</style>
+
       {/* Background Ornaments */}
-      <div className="fixed top-[-10%] right-[-5%] w-[800px] h-[800px] bg-[#E5806A]/10 rounded-full blur-[150px] pointer-events-none -z-10 animate-pulse"></div>
-      <div className="fixed top-[40%] left-[-15%] w-[600px] h-[600px] bg-[#12243A]/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+      <div className="fixed top-[-10%] right-[-5%] w-[800px] h-[800px] bg-[#E5806A]/10 rounded-full blur-[150px] pointer-events-none -z-10 mesh-blob"></div>
+      <div className="fixed top-[40%] left-[-15%] w-[600px] h-[600px] bg-[#12243A]/5 rounded-full blur-[150px] pointer-events-none -z-10 mesh-blob-2"></div>
       <div className="fixed bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-[#FFF0EC]/50 rounded-full blur-[120px] pointer-events-none -z-10"></div>
 
       {/* --- GLOBAL TOAST NOTIFICATION --- */}
@@ -159,24 +212,23 @@ export default function GuestDashboard() {
       </AnimatePresence>
 
       {/* ==========================================
-          1. NAVIGATION (Teks diperbaiki agar terlihat jelas)
+          1. NAVIGATION — REDESIGN ELEGANT MINIMALIS
          ========================================== */}
-      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled ? 'pt-2 pb-2' : 'pt-6 pb-0'}`}>
-        <nav className={`max-w-7xl mx-auto px-6 py-4 flex justify-between items-center transition-all duration-500 ${isScrolled ? 'bg-white/80 backdrop-blur-xl shadow-lg border border-white/40 rounded-full' : 'bg-transparent rounded-full'}`}>
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-            <motion.div whileHover={{ rotate: 15 }} className="w-10 h-10 bg-gradient-to-tr from-[#E5806A] to-[#ff9b86] rounded-xl flex items-center justify-center shadow-lg shadow-[#E5806A]/30">
-              <HiOutlineSparkles className="text-white text-xl" />
+      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled ? 'pt-0 pb-0 shadow-sm' : 'pt-0 pb-0'}`}>
+        <nav className={`max-w-full px-6 sm:px-8 lg:px-12 flex justify-between items-center transition-all duration-500 ${isScrolled ? 'bg-[rgba(242,246,244,0.85)] backdrop-blur-xl border-b border-[rgba(18,36,58,0.08)]' : 'bg-[rgba(242,246,244,0)] backdrop-blur-none border-b border-transparent'}`}>
+          <div className="flex items-center space-x-3 py-4 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <motion.div whileHover={{ rotate: 15 }} className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-[rgba(229,128,106,0.2)]">
+              <HiOutlineSparkles className="text-[#E5806A] text-xl" />
             </motion.div>
-            <span className="text-xl font-black tracking-tight text-[#12243A]">Glow<span className="text-[#E5806A] font-medium">Care</span></span>
+            <span className="text-xl font-serif font-black tracking-tight text-[#12243A]">Glow<span className="text-gradient-coral font-medium">Care</span></span>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8 bg-white/50 backdrop-blur-md border border-white/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)] px-8 py-3.5 rounded-full text-xs font-bold text-slate-500">
-            <a href="#hero" className="hover:text-[#E5806A] transition-colors">Beranda</a>
-            <a href="#services" className="hover:text-[#E5806A] transition-colors">Layanan</a>
-            <a href="#products" className="hover:text-[#E5806A] transition-colors">Produk</a>
-            <a href="#testimonials" className="hover:text-[#E5806A] transition-colors">Testimoni</a>
-            <a href="#doctors" className="hover:text-[#E5806A] transition-colors">Dokter</a>
-            <a href="#footer" className="hover:text-[#E5806A] transition-colors">Kontak</a>
+          <div className="hidden md:flex items-center space-x-8 text-xs font-bold tracking-wider text-[#12243A]/70">
+            <a href="#hero" className="hover:text-[#E5806A] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E5806A] after:transition-all hover:after:w-full">Beranda</a>
+            <a href="#services" className="hover:text-[#E5806A] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E5806A] after:transition-all hover:after:w-full">Layanan</a>
+            <a href="#products" className="hover:text-[#E5806A] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E5806A] after:transition-all hover:after:w-full">Produk</a>
+            <a href="#testimonials" className="hover:text-[#E5806A] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E5806A] after:transition-all hover:after:w-full">Testimoni</a>
+            <a href="#footer" className="hover:text-[#E5806A] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E5806A] after:transition-all hover:after:w-full">Kontak</a>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -189,31 +241,28 @@ export default function GuestDashboard() {
       </header>
 
       {/* ==========================================
-          2. HERO SECTION
+          2. HERO SECTION — REDESIGN
          ========================================== */}
-      <section id="hero" className="max-w-7xl mx-auto px-6 sm:px-8 pt-40 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      <section id="hero" className="max-w-7xl mx-auto px-6 sm:px-8 pt-44 pb-32 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="space-y-8 text-center lg:text-left">
-          <motion.div variants={fadeUp} className="inline-flex items-center bg-white/70 backdrop-blur-md border border-white px-5 py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase text-[#E5806A] shadow-sm">
-            <HiOutlineSparkles className="mr-2" size={14} /> KLINIK KECANTIKAN TERBAIK DI INDONESIA
+          <motion.div variants={fadeUp} className="inline-flex items-center bg-[#FFF0EC] border border-[#FFE4DC] px-5 py-2.5 rounded-full text-[10px] font-black tracking-widest uppercase text-[#E5806A] shadow-sm">
+            <HiOutlineSparkles className="mr-2" size={14} /> KLINIK KECANTIKAN PREMIUM SEJAK 2026
           </motion.div>
           
-          <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl lg:text-[76px] font-serif font-medium text-[#12243A] leading-[1.05] tracking-tight">
-            Sempurnakan <br />
-            <span className="relative inline-block">
-              <span className="relative z-10 text-[#E5806A] font-bold italic">Kecantikan</span>
-              <div className="absolute bottom-3 left-0 w-full h-4 bg-[#FFF0EC] -z-10 rounded-full"></div>
-            </span> <br />
-            <span className="text-[#12243A] font-bold">Alami</span> Anda.
+          <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl lg:text-[72px] font-serif text-[#12243A] leading-[1.05] tracking-tight">
+            Temukan <br />
+            <span className="text-gradient-coral italic font-bold">Pesona Alami</span> <br />
+            Anda Bersama Kami
           </motion.h1>
 
-          <motion.p variants={fadeUp} className="text-base text-slate-500 font-medium max-w-lg mx-auto lg:mx-0 leading-relaxed">Evolusi perawatan kulit modern. Ditangani langsung oleh dokter dermatologi kelas dunia menggunakan teknologi estetika mutakhir.</motion.p>
+          <motion.p variants={fadeUp} className="text-base text-slate-500 font-medium max-w-lg mx-auto lg:mx-0 leading-relaxed">Perawatan eksklusif dengan sentuhan dermatologi modern dan bahan premium pilihan untuk kulit yang sehat bercahaya.</motion.p>
 
           <motion.div variants={fadeUp} className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
             <motion.button onClick={() => showToast("Silakan Daftar/Masuk ke Dashboard Member untuk memulai reservasi.")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto bg-[#12243A] text-white text-sm font-bold px-8 py-4.5 rounded-full shadow-xl shadow-[#12243A]/20 flex items-center justify-center space-x-3 transition-colors hover:bg-[#E5806A]">
-              <span>Mulai Reservasi</span> <HiOutlineArrowRight size={18} />
+              <HiOutlineCalendar size={18} /> <span>Booking Konsultasi</span>
             </motion.button>
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="#services" className="w-full sm:w-auto text-center bg-white/50 backdrop-blur-sm border border-slate-200 text-[#12243A] text-sm font-bold px-8 py-4.5 rounded-full transition-colors hover:bg-white hover:border-[#12243A]">
-              Layanan kami
+            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="#services" className="w-full sm:w-auto text-center bg-transparent border border-[#12243A]/20 hover:border-[#E5806A] text-[#12243A] text-sm font-bold px-8 py-4.5 rounded-full transition-colors">
+              Lihat Layanan
             </motion.a>
           </motion.div>
 
@@ -231,18 +280,18 @@ export default function GuestDashboard() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative flex justify-center items-center">
-          <div className="absolute inset-0 bg-[#E5806A]/30 blur-[80px] rounded-full"></div>
-          <div className="relative w-[90%] max-w-[420px] aspect-[4/5] bg-white rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-2xl rounded-br-2xl overflow-hidden shadow-2xl p-2 z-20">
-            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80" alt="Facial Treatment" className="w-full h-full object-cover rounded-tr-[4.5rem] rounded-bl-[4.5rem] rounded-tl-xl rounded-br-xl" />
+          <div className="absolute inset-0 bg-[#E5806A]/20 blur-[80px] rounded-full"></div>
+          <div className="relative w-[90%] max-w-[420px] aspect-[4/5] bg-white rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white z-20">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80" alt="Facial Treatment" className="w-full h-full object-cover" />
           </div>
-          <motion.div animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-12 -left-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 z-30 flex items-center gap-3">
+          <div className="absolute top-8 -left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-[#FFE4DC] z-30 flex items-center gap-3 animate-float">
             <div className="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center"><HiSparkles size={20}/></div>
-            <div><p className="text-xs font-bold text-[#12243A]">Top 1.000 Klinik</p><p className="text-[10px] text-slate-400 font-medium">Di Asia Pasifik</p></div>
-          </motion.div>
-          <motion.div animate={{ y: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute bottom-20 -right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 z-30 flex items-center gap-3">
+            <div><p className="text-xs font-bold text-[#12243A]">4.9/5 Rating</p><p className="text-[10px] text-slate-400 font-medium">Kepuasan Pasien</p></div>
+          </div>
+          <div className="absolute bottom-16 -right-6 bg-[#FFF0EC]/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-[#FFE4DC] z-30 flex items-center gap-3 animate-float-slow">
             <div className="w-10 h-10 bg-[#FFF0EC] text-[#E5806A] rounded-xl flex items-center justify-center"><HiOutlineBadgeCheck size={20}/></div>
-            <div><p className="text-xs font-bold text-[#12243A]">99% Sukses</p><p className="text-[10px] text-slate-400 font-medium">Tingkat Kepuasan</p></div>
-          </motion.div>
+            <div><p className="text-xs font-bold text-[#12243A]">100% Organic</p><p className="text-[10px] text-slate-400 font-medium">Bahan Premium</p></div>
+          </div>
         </motion.div>
       </section>
 
@@ -558,66 +607,66 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          12. FOOTER
+          12. FOOTER — REDESIGN SOFT ELEGANT
          ========================================== */}
-      <footer id="footer" className="bg-[#0b1624] pt-20 pb-10 relative z-10 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm text-slate-400 mb-16">
+      <footer id="footer" className="bg-[#F5EFE6] pt-20 pb-10 relative z-10 border-t border-[rgba(18,36,58,0.08)]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm text-slate-500 mb-16">
           <div className="md:col-span-1 space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 border border-slate-700 bg-slate-800/50 rounded-xl flex items-center justify-center text-[#E5806A]">
-                <HiOutlineSparkles size={20} />
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-[rgba(229,128,106,0.2)]">
+                <HiOutlineSparkles className="text-[#E5806A] text-xl" />
               </div>
-              <span className="text-2xl font-bold tracking-tight text-white">GlowCare</span>
+              <span className="text-2xl font-serif font-black tracking-tight text-[#12243A]">Glow<span className="text-gradient-coral">Care</span></span>
             </div>
-            <p className="leading-relaxed text-xs pr-4 font-medium">
+            <p className="leading-relaxed text-xs pr-4 font-medium text-slate-500">
               Mendefinisikan ulang standar kecantikan dan estetika medis melalui keahlian tanpa kompromi.
             </p>
           </div>
 
           <div className="md:col-span-1 space-y-5">
-            <h5 className="text-[10px] font-black text-white uppercase tracking-widest">NAVIGASI</h5>
+            <h5 className="text-[10px] font-black text-[#12243A] uppercase tracking-widest">NAVIGASI</h5>
             <ul className="space-y-4 text-xs font-medium">
-              <li><a href="#hero" className="hover:text-[#E5806A] transition-colors">Beranda</a></li>
-              <li><a href="#services" className="hover:text-[#E5806A] transition-colors">Layanan</a></li>
-              <li><a href="#products" className="hover:text-[#E5806A] transition-colors">Produk</a></li>
-              <li><a href="#membership" className="hover:text-[#E5806A] transition-colors">Membership</a></li>
+              <li><a href="#hero" className="text-slate-500 hover:text-[#E5806A] transition-colors">Beranda</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-[#E5806A] transition-colors">Layanan</a></li>
+              <li><a href="#products" className="text-slate-500 hover:text-[#E5806A] transition-colors">Produk</a></li>
+              <li><a href="#membership" className="text-slate-500 hover:text-[#E5806A] transition-colors">Membership</a></li>
             </ul>
           </div>
 
           <div className="md:col-span-1 space-y-5">
-            <h5 className="text-[10px] font-black text-white uppercase tracking-widest">LAYANAN POPULER</h5>
+            <h5 className="text-[10px] font-black text-[#12243A] uppercase tracking-widest">LAYANAN POPULER</h5>
             <ul className="space-y-4 text-xs font-medium">
-              <li><a href="#services" className="hover:text-[#E5806A] transition-colors">PicoGold Pore-Eraser</a></li>
-              <li><a href="#services" className="hover:text-[#E5806A] transition-colors">Anti-Aging Ultherapy</a></li>
-              <li><a href="#services" className="hover:text-[#E5806A] transition-colors">DNA Salmon Booster</a></li>
-              <li><a href="#services" className="hover:text-[#E5806A] transition-colors">Royal Oxygen Facial</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-[#E5806A] transition-colors">PicoGold Pore-Eraser</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-[#E5806A] transition-colors">Anti-Aging Ultherapy</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-[#E5806A] transition-colors">DNA Salmon Booster</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-[#E5806A] transition-colors">Royal Oxygen Facial</a></li>
             </ul>
           </div>
 
           <div className="md:col-span-1 space-y-5">
-            <h5 className="text-[10px] font-black text-white uppercase tracking-widest">KONTAK CONCIERGE</h5>
+            <h5 className="text-[10px] font-black text-[#12243A] uppercase tracking-widest">KONTAK CONCIERGE</h5>
             <ul className="space-y-4 text-xs font-medium">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 text-slate-500">
                 <HiOutlineLocationMarker className="text-[#E5806A] shrink-0 text-base" />
                 <span>Pekanbaru, Riau, Indonesia</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 text-slate-500">
                 <HiOutlinePhone className="text-[#E5806A] shrink-0 text-base" />
                 <span>+62 857 7685 8151</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 text-slate-500">
                 <HiOutlineMail className="text-[#E5806A] shrink-0 text-base" />
                 <span>nabil24si@mahasiswa.pcr.ac.id</span>
               </li>
             </ul>
             <div className="flex gap-3 pt-4">
-              <a href="#" className="w-10 h-10 rounded-full border border-slate-700 bg-slate-800/50 flex items-center justify-center text-white hover:bg-[#E5806A] hover:border-[#E5806A] transition-all"><HiOutlineChatAlt2 size={16}/></a>
-              <a href="#" className="w-10 h-10 rounded-full border border-slate-700 bg-slate-800/50 flex items-center justify-center text-white hover:bg-[#E5806A] hover:border-[#E5806A] transition-all"><HiOutlineGlobe size={16}/></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-[#FFF0EC] flex items-center justify-center text-[#12243A] hover:bg-[#E5806A] hover:text-white transition-all"><HiOutlineChatAlt2 size={16}/></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-[#FFF0EC] flex items-center justify-center text-[#12243A] hover:bg-[#E5806A] hover:text-white transition-all"><HiOutlineGlobe size={16}/></a>
             </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-8 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 font-medium uppercase tracking-widest">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-8 border-t border-[rgba(18,36,58,0.1)] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-400 font-medium uppercase tracking-widest">
           <p>&copy; {new Date().getFullYear()} GlowCare Clinic. All rights reserved.</p>
           <p>Crafted with Precision & Passion</p>
         </div>
