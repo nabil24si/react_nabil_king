@@ -67,12 +67,12 @@ export default function GuestDashboard() {
 
   // --- DATA MOCKUP LAMA & BARU ---
   const treatments = [
-    { id: 1, category: "laser", title: "PicoGold Pore-Eraser", desc: "Hapus flek, melasma, dan bekas jerawat dalam hitungan pikodetik tanpa pemulihan lama.", price: "1,500k", icon: <HiOutlineSparkles />, img: "https://images.unsplash.com/photo-1614859324967-bdf461fcf769?auto=format&fit=crop&w=500&q=80", tag: "Premium Laser" },
-    { id: 2, category: "injection", title: "DNA Salmon Booster", desc: "Mikro-injeksi molekul murni untuk merangsang kolagen, mengunci hidrasi, dan menghapus kerutan.", price: "950k", icon: <HiOutlineShieldCheck />, img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80", tag: "Injection" },
-    { id: 3, category: "holistic", title: "Radiance Laser Infusion", desc: "Terapi peremajaan intensif menggunakan serum premium untuk mencerahkan noda hitam instan.", price: "450k", icon: <HiOutlineStar />, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=500&q=80", tag: "Therapy" },
-    { id: 4, category: "laser", title: "CO2 Fractional Resurfacing", desc: "Teknologi laser ablatif untuk mengangkat sel kulit mati kronis dan merangsang kulit baru.", price: "1,850k", icon: <HiOutlineCalendar />, img: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=500&q=80", tag: "Advanced Laser" },
-    { id: 5, category: "injection", title: "Anti-Aging Ultherapy", desc: "Lifting tanpa operasi menggunakan gelombang ultrasound untuk wajah yang kendur agar kencang kembali.", price: "3,200k", icon: <HiOutlineUserGroup />, img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=500&q=80", tag: "Sculpting" },
-    { id: 6, category: "holistic", title: "Royal Oxygen Facial", desc: "Facial eksklusif dengan detoksifikasi hiperbarik dan ekstraksi komedo steril tanpa rasa sakit.", price: "350k", icon: <HiOutlineBadgeCheck />, img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=500&q=80", tag: "Facial Spa" }
+    { id: 1, category: "facial", title: "Organic Facial Glow", desc: "Facial organik dengan bahan alami pilihan untuk kulit cerah alami.", price: "350k", icon: <HiOutlineSparkles />, img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=500&q=80", tag: "Facial Premium" },
+    { id: 2, category: "laser", title: "Pico Laser Premium", desc: "Teknologi laser pikodetik untuk hasil maksimal tanpa downtime.", price: "1,500k", icon: <HiOutlineShieldCheck />, img: "https://images.unsplash.com/photo-1614859324967-bdf461fcf769?auto=format&fit=crop&w=500&q=80", tag: "Laser Tech" },
+    { id: 3, category: "anti-aging", title: "Anti-Aging Therapy", desc: "Peremajaan kulit dengan metode terbaru untuk tampil lebih muda.", price: "2,500k", icon: <HiOutlineStar />, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=500&q=80", tag: "Rejuvenation" },
+    { id: 4, category: "body", title: "Body Contouring", desc: "Bentuk tubuh ideal dengan teknologi non-invasif terpercaya.", price: "3,200k", icon: <HiOutlineCalendar />, img: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=500&q=80", tag: "Body Care" },
+    { id: 5, category: "facial", title: "VIP Facial Gold", desc: "Facial eksklusif dengan serum emas 24K untuk kilau mewah.", price: "850k", icon: <HiOutlineUserGroup />, img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80", tag: "Gold Series" },
+    { id: 6, category: "konsultasi", title: "Konsultasi Privat", desc: "Konsultasi 1-on-1 dengan dokter spesialis kulit terpercaya.", price: "200k", icon: <HiOutlineBadgeCheck />, img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80", tag: "Exclusive" }
   ];
 
   const testimonials = [
@@ -296,34 +296,111 @@ export default function GuestDashboard() {
       </section>
 
       {/* ==========================================
-          3. CLINICAL MILESTONES
+          3. STATS — REDESIGN
          ========================================== */}
-      <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="max-w-6xl mx-auto px-6 sm:px-8 mb-32 relative z-10">
-        <div className="bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white flex flex-wrap md:flex-nowrap justify-around items-center gap-6">
-          <div className="text-center px-4 w-1/2 md:w-auto border-r border-slate-200/50 last:border-0 md:border-r-0">
+      <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="max-w-6xl mx-auto px-6 sm:px-8 mb-24 relative z-10">
+        <div className="bg-[#FDFCFA] rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-[rgba(201,169,97,0.2)] flex flex-wrap md:flex-nowrap justify-around items-center gap-6">
+          <div className="text-center px-4 w-1/2 md:w-auto group hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-2xl flex items-center justify-center text-white shadow-sm">
+              <HiOutlineUserGroup size={22} />
+            </div>
             <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">15<span className="text-[#E5806A]">+</span></h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1"><HiOutlineUserGroup className="text-[#E5806A]"/> DOKTER ESTETIKA</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">DOKTER SPESIALIS</p>
           </div>
           <div className="hidden md:block w-px h-12 bg-slate-200/50"></div>
-          <div className="text-center px-4 w-1/2 md:w-auto border-slate-200/50">
+          <div className="text-center px-4 w-1/2 md:w-auto group hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-2xl flex items-center justify-center text-white shadow-sm">
+              <HiOutlineSparkles size={22} />
+            </div>
             <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">50<span className="text-[#E5806A]">+</span></h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1"><HiOutlineSparkles className="text-[#E5806A]"/> TEKNOLOGI LASER</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TREATMENT PREMIUM</p>
           </div>
           <div className="hidden md:block w-px h-12 bg-slate-200/50"></div>
-          <div className="text-center px-4 w-1/2 md:w-auto border-r border-slate-200/50 md:border-r-0 pt-6 md:pt-0">
-            <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">99<span className="text-[#E5806A]">%</span></h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1"><HiOutlineStar className="text-[#E5806A]"/> PASIEN PUAS</p>
+          <div className="text-center px-4 w-1/2 md:w-auto group hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-2xl flex items-center justify-center text-white shadow-sm">
+              <HiOutlineStar size={22} />
+            </div>
+            <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">10K<span className="text-[#E5806A]">+</span></h3>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">PASIEN BAHAGIA</p>
           </div>
           <div className="hidden md:block w-px h-12 bg-slate-200/50"></div>
-          <div className="text-center px-4 w-1/2 md:w-auto pt-6 md:pt-0">
-            <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">24<span className="text-[#E5806A]">/</span>7</h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1"><HiOutlineClock className="text-[#E5806A]"/> LAYANAN VVIP</p>
+          <div className="text-center px-4 w-1/2 md:w-auto group hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-2xl flex items-center justify-center text-white shadow-sm">
+              <HiOutlineBadgeCheck size={22} />
+            </div>
+            <h3 className="text-4xl font-serif font-bold text-[#12243A] mb-1">100<span className="text-[#E5806A]">%</span></h3>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">BAHAN ORGANIK</p>
           </div>
         </div>
       </motion.section>
 
       {/* ==========================================
-          4. SERVICES GRID 
+          4. WHY CHOOSE US — NEW SECTION
+         ========================================== */}
+      <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Kolom Kiri — Image & Floating Badges */}
+          <motion.div variants={fadeUp} className="relative flex justify-center items-center">
+            <div className="absolute inset-0 bg-[#E5806A]/15 blur-[80px] rounded-full"></div>
+            <div className="relative w-full max-w-[480px] aspect-[4/5] bg-white rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white z-20">
+              <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="GlowCare Clinic Interior" className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute top-8 -left-4 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-[#FFE4DC] z-30 flex items-center gap-3 animate-float">
+              <HiOutlineBadgeCheck size={22} className="text-[#E5806A]" />
+              <div>
+                <p className="text-xs font-bold text-[#12243A]">Best Clinic 2025</p>
+                <p className="text-[10px] text-slate-400 font-medium">Award Winner</p>
+              </div>
+            </div>
+            <div className="absolute bottom-16 -right-4 bg-[#FFF0EC]/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-[#FFE4DC] z-30 flex items-center gap-3 animate-float-slow">
+              <HiOutlineCheckCircle size={22} className="text-[#9CAF88]" />
+              <div>
+                <p className="text-xs font-bold text-[#12243A]">✓ BPOM Certified</p>
+                <p className="text-[10px] text-slate-400 font-medium">Terdaftar Resmi</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Kolom Kanan — Content */}
+          <motion.div variants={fadeUp} className="space-y-8 text-center lg:text-left">
+            <span className="inline-flex items-center bg-[#FFF0EC] border border-[#FFE4DC] px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase text-[#E5806A] shadow-sm">
+              WHY CHOOSE US
+            </span>
+            
+            <h2 className="text-4xl sm:text-5xl font-serif text-[#12243A] leading-tight">
+              Mengapa <br />
+              <span className="text-gradient-coral italic font-bold">Memilih</span> <br />
+              GlowCare?
+            </h2>
+
+            <p className="text-base text-slate-500 font-medium max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              Kami menggabungkan keahlian medis dengan bahan premium untuk memberikan hasil terbaik bagi kulit Anda.
+            </p>
+
+            <div className="space-y-6 pt-4">
+              {[
+                { icon: HiOutlineShieldCheck, title: "Dermatolog Bersertifikat", desc: "Ditangani langsung oleh Sp.DVE berpengalaman" },
+                { icon: HiOutlineSparkles, title: "Teknologi Terkini", desc: "Menggunakan peralatan estetika paling modern" },
+                { icon: HiOutlineUserGroup, title: "Pendekatan Personal", desc: "Setiap treatment disesuaikan dengan kebutuhan kulit Anda" },
+                { icon: HiOutlineBadgeCheck, title: "Bahan Premium 100%", desc: "Hanya menggunakan bahan organik dan aman" }
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF0EC] text-[#E5806A] flex items-center justify-center shrink-0">
+                    <item.icon size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#12243A] text-sm">{item.title}</h4>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* ==========================================
+          5. SERVICES GRID — REDESIGN
          ========================================== */}
       <motion.section id="services" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-7xl mx-auto px-6 sm:px-8 py-10 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
@@ -334,7 +411,7 @@ export default function GuestDashboard() {
 
         <div className="flex justify-center mb-10">
           <div className="flex flex-wrap justify-center gap-2 bg-white/50 backdrop-blur-sm p-2 rounded-full border border-white/60 shadow-sm">
-            {["all", "laser", "injection", "holistic"].map((cat) => (
+            {["all", "facial", "laser", "anti-aging", "body", "konsultasi"].map((cat) => (
               <button
                 key={cat} onClick={() => setActiveCategory(cat)}
                 className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 relative ${activeCategory === cat ? "text-white" : "text-slate-500 hover:text-[#12243A]"}`}
@@ -351,25 +428,22 @@ export default function GuestDashboard() {
             {filteredTreatments.map((treatment) => (
               <motion.div 
                 key={treatment.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }}
-                className="bg-white/80 backdrop-blur-lg p-8 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-2xl rounded-br-2xl shadow-sm hover:shadow-[0_20px_40px_rgb(229,128,106,0.1)] border border-white hover:border-[#FFF0EC] transition-all duration-500 flex flex-col justify-between group"
+                className="bg-[#FDFCFA] rounded-[2.5rem] shadow-sm border border-[rgba(154,175,136,0.2)] overflow-hidden hover:-translate-y-2 hover:shadow-lg hover:border-[#E5806A]/30 transition-all duration-300 flex flex-col group"
               >
-                <div>
-                  <div className="h-64 overflow-hidden relative">
-                    <img src={treatment.img} alt={treatment.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <span className="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[#12243A] text-[10px] font-black tracking-wider uppercase px-4 py-2 rounded-xl shadow-sm">{treatment.tag}</span>
-                  </div>
-                  <div className="p-8 space-y-3">
-                    <h4 className="font-black text-xl text-[#12243A] tracking-tight group-hover:text-[#E5806A] transition-colors">{treatment.title}</h4>
-                    <p className="text-sm text-slate-500 font-medium leading-relaxed mb-8">{treatment.desc}</p>
-                  </div>
+                <div className="relative h-52 overflow-hidden">
+                  <img src={treatment.img} alt={treatment.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+                  <span className="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[#12243A] text-[10px] font-black tracking-wider uppercase px-4 py-2 rounded-xl shadow-sm">{treatment.tag}</span>
                 </div>
-                <div className="p-8 pt-0">
-                  <div className="flex justify-between items-center pt-6 border-t border-slate-100">
+                <div className="p-6 space-y-3 flex flex-col flex-1">
+                  <h4 className="font-black text-lg text-[#12243A] tracking-tight group-hover:text-[#E5806A] transition-colors">{treatment.title}</h4>
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed flex-1">{treatment.desc}</p>
+                  <div className="flex justify-between items-center pt-4 border-t border-slate-100">
                     <div>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Starting from</p>
                       <p className="font-black text-lg text-[#12243A]">IDR {treatment.price}</p>
                     </div>
-                    <button onClick={() => showToast("Login untuk memesan layanan ini.")} className="w-12 h-12 bg-[#F2F6F4] rounded-2xl flex items-center justify-center text-[#12243A] group-hover:bg-[#E5806A] group-hover:text-white transition-colors shadow-sm"><HiOutlineArrowRight size={20} /></button>
+                    <button onClick={() => showToast("Login untuk memesan layanan ini.")} className="w-10 h-10 bg-[#F2F6F4] rounded-2xl flex items-center justify-center text-[#12243A] hover:bg-[#E5806A] hover:text-white transition-colors shadow-sm"><HiOutlineArrowRight size={18} /></button>
                   </div>
                 </div>
               </motion.div>
