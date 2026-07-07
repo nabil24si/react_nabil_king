@@ -1,101 +1,77 @@
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"; // Sesuaikan path alias jika berbeda
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function PatientForm({ formData, onChange, onSubmit }) {
-  
-  // Karena Shadcn Select mengembalikan nilai langsung (bukan event object),
-  // kita manipulasi sedikit agar tetap sinkron dengan fungsi handleInputChange di Patients.jsx
-  const handleSelectChange = (value) => {
-    onChange({
-      target: {
-        name: "treatment",
-        value: value,
-      },
-    });
-  };
-
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-gray-700">Patient ID</label>
-        <input
-          type="text"
-          name="patientId"
-          value={formData.patientId}
-          onChange={onChange}
-          placeholder="e.g. PAT-3010"
-          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
-          required
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-gray-700">Patient Name</label>
-        <input
-          type="text"
+    <form onSubmit={onSubmit} className="space-y-4 font-poppins">
+      <div className="space-y-1">
+        <Label htmlFor="patientName">Patient Name</Label>
+        <Input
+          id="patientName"
           name="patientName"
+          type="text"
+          placeholder="e.g. John Doe"
           value={formData.patientName}
           onChange={onChange}
-          placeholder="Full Name"
-          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
           required
+          className="rounded-xl"
         />
       </div>
 
-      <div>
-        <label className="text-sm font-medium text-gray-700">Email</label>
-        <input
-          type="email"
+      <div className="space-y-1">
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
           name="email"
+          type="email"
+          placeholder="name@example.com"
           value={formData.email}
           onChange={onChange}
-          placeholder="name@example.com"
-          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
           required
+          className="rounded-xl"
         />
       </div>
 
-      <div>
-        <label className="text-sm font-medium text-gray-700">Phone</label>
-        <input
-          type="text"
+      <div className="space-y-1">
+        <Label htmlFor="phone">Phone</Label>
+        <Input
+          id="phone"
           name="phone"
+          type="text"
+          placeholder="+62 812-3456-7890"
           value={formData.phone}
           onChange={onChange}
-          placeholder="+62 8..."
-          className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CDEEDD]"
           required
+          className="rounded-xl"
         />
       </div>
 
-      <div>
-        <label className="text-sm font-medium text-gray-700">Treatment</label>
-        {/* IMPLEMENTASI SHADCN UI SELECT */}
-        <Select value={formData.treatment} onValueChange={handleSelectChange}>
-          <SelectTrigger className="w-full mt-1 p-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CDEEDD]">
-            <SelectValue placeholder="Select Treatment" />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            <SelectItem value="Facial">Facial</SelectItem>
-            <SelectItem value="Laser">Laser</SelectItem>
-            <SelectItem value="Massage">Massage</SelectItem>
-            <SelectItem value="Facial Rejuvenation">Facial Rejuvenation</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="space-y-1">
+        <Label htmlFor="treatment">Treatment</Label>
+        <select
+          id="treatment"
+          name="treatment"
+          value={formData.treatment}
+          onChange={onChange}
+          required
+          className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all cursor-pointer text-black"
+        >
+          <option value="Facial">Facial</option>
+          <option value="Laser">Laser</option>
+          <option value="Massage">Massage</option>
+          <option value="Facial Rejuvenation">Facial Rejuvenation</option>
+          <option value="Microdermabrasion">Microdermabrasion</option>
+          <option value="Chemical Peels">Chemical Peels</option>
+        </select>
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black font-medium py-3 rounded-xl mt-6 transition-all duration-300"
-      >
-        Save Patient
-      </button>
+      <div className="pt-2">
+        <Button type="submit" className="w-full bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black rounded-xl font-medium shadow-md transition-all">
+          Save Patient Record
+        </Button>
+      </div>
     </form>
   );
 }

@@ -1,8 +1,16 @@
 import { FaBoxOpen, FaPlus, FaTimes, FaLayerGroup } from "react-icons/fa";
 import PageHeader from "../components/PageHeader";
-import productsData from "../data/ProductsData.json"; // Pastikan path benar
+import productsData from "../data/ProductsData.json";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function Products(props) {
   const [products, setProducts] = useState(productsData);
@@ -64,58 +72,49 @@ export default function Products(props) {
         </button>
       </PageHeader>
 
-      <div className="bg-white rounded-[32px] shadow-sm overflow-hidden border border-gray-100 mt-8">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm">
-            <thead className="text-black/30 font-medium uppercase tracking-widest text-[10px] border-b border-gray-50">
-              <tr>
-                <th className="px-8 py-6">Code</th>
-                <th className="px-8 py-6">Product Name</th>
-                <th className="px-8 py-6">Brand</th>
-                <th className="px-8 py-6">Category</th>
-                <th className="px-8 py-6">Stock</th>
-                <th className="px-8 py-6 text-right">Price</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {products.map((item, idx) => (
-                <tr
-                  key={idx}
-                  className="hover:bg-gray-50/50 transition-colors group"
-                >
-                  <td className="px-8 py-5 text-black/50 font-normal">
-                    {item.code}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Link
-                      to={`/products/${item.id}`}
-                      className="text-emerald-400 hover:text-emerald-500"
-                    >
-                      {item.title}
-                    </Link>
-                  </td>
-                  <td className="px-8 py-5 text-black/60">{item.brand}</td>
-                  <td className="px-8 py-5">
-                    <span
-                      className={`px-3 py-1 rounded-full text-[10px] font-medium tracking-wide ${getCategoryStyle(item.category)}`}
-                    >
-                      {item.category}
-                    </span>
-                  </td>
-                  <td className="px-8 py-5 text-black/50">
-                    <div className="flex items-center">
-                      <FaLayerGroup className="mr-2 text-[10px] opacity-30" />
-                      {item.stock} units
-                    </div>
-                  </td>
-                  <td className="px-8 py-5 text-right font-medium text-black">
-                    {item.price}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="rounded-2xl border border-gray-100 bg-white shadow-sm mt-6 overflow-hidden">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow>
+              <TableHead className="w-[100px] font-semibold text-gray-700">Code</TableHead>
+              <TableHead className="font-semibold text-gray-700">Product Name</TableHead>
+              <TableHead className="font-semibold text-gray-700">Brand</TableHead>
+              <TableHead className="font-semibold text-gray-700">Category</TableHead>
+              <TableHead className="font-semibold text-gray-700">Stock</TableHead>
+              <TableHead className="text-right font-semibold text-gray-700">Price</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {products.map((item, idx) => (
+              <TableRow key={idx} className="hover:bg-gray-50/50 transition-colors">
+                <TableCell className="font-mono text-xs text-gray-500">{item.code}</TableCell>
+                <TableCell>
+                  <Link
+                    to={`/products/${item.id}`}
+                    className="text-emerald-400 hover:text-emerald-500"
+                  >
+                    {item.title}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-gray-600">{item.brand}</TableCell>
+                <TableCell>
+                  <span
+                    className={`px-3 py-1 rounded-full text-[10px] font-medium tracking-wide ${getCategoryStyle(item.category)}`}
+                  >
+                    {item.category}
+                  </span>
+                </TableCell>
+                <TableCell className="text-gray-600">
+                  <div className="flex items-center">
+                    <FaLayerGroup className="mr-2 text-[10px] opacity-30" />
+                    {item.stock} units
+                  </div>
+                </TableCell>
+                <TableCell className="text-right font-medium text-gray-900">{item.price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
 
       {/* MODAL SECTION */}

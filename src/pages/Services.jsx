@@ -1,32 +1,106 @@
-import { FaSpa, FaPlus, FaTimes, FaHourglassHalf } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import PageHeader from "../components/PageHeader";
-import servicesData from "../data/ServicesData.json";
-import { useState } from "react";
+
+// Import Service API Supabase
+import { servicesAPI } from "../services/servicesAPI";
+
+// Import Komponen State UI
+import AlertBox from "../components/AlertBox";
+import EmptyState from "../components/EmptyState";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+// Import Komponen Pecahan (Shadcn/ui)
+import ServiceModal from "../components/ServiceModal";
+import ServiceForm from "../components/ServiceForm";
+
+const initialFormState = { 
+  serviceName: "", 
+  price: "", 
+  duration: "60", 
+  category: "Facial" 
+};
 
 export default function Services(props) {
-  const [services, setServices] = useState(servicesData);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ 
-    serviceId: "", 
-    serviceName: "", 
-    price: "", 
-    duration: "60", 
-    category: "Facial" 
-  });
+  const [formData, setFormData] = useState(initialFormState);
+
+  useEffect(() => {
+    loadServices();
+  }, []);
+
+  const loadServices = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await servicesAPI.fetchServices();
+      setServices(data);
+    } catch (err) {
+      setError("Gagal memuat daftar layanan dari database Supabase.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setServices([formData, ...services]);
-    setIsModalOpen(false);
-    setFormData({ serviceId: "", serviceName: "", price: "", duration: "60", category: "Facial" });
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      await servicesAPI.createService(formData);
+
+      setSuccess("Layanan baru berhasil ditambahkan!");
+      setIsModalOpen(false);
+      setFormData(initialFormState);
+
+      setTimeout(() => setSuccess(""), 3000);
+      loadServices();
+    } catch (err) {
+      setError(`Gagal menyimpan layanan: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Helper styling menggunakan palet CDEEDD & FFD9D0 dengan teks hitam murni
+  const handleDelete = async (id, servicename) => {
+    const konfirmasi = confirm(`Yakin ingin menghapus layanan "${servicename}"?`);
+    if (!konfirmasi) return;
+
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      await servicesAPI.deleteService(id);
+      setSuccess(`Layanan "${servicename}" berhasil dihapus.`);
+
+      setTimeout(() => setSuccess(""), 3000);
+      loadServices();
+    } catch (err) {
+      setError(`Gagal menghapus data: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFormData(initialFormState);
+  };
+
+  // Helper styling
   const getCategoryStyle = (cat) => {
     switch (cat) {
       case 'Facial': return 'bg-[#CDEEDD]/50 text-black border border-[#CDEEDD]';
@@ -44,129 +118,77 @@ export default function Services(props) {
       >
         <button 
           onClick={() => setIsModalOpen(true)} 
-          className="bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black px-6 py-3 rounded-2xl flex items-center space-x-2 font-medium shadow-lg shadow-[#CDEEDD]/20 transition-all duration-300"
+          disabled={loading}
+          className="bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black px-6 py-3 rounded-2xl flex items-center space-x-2 font-medium shadow-lg shadow-[#CDEEDD]/20 transition-all duration-300 disabled:opacity-50"
         >
           <FaPlus size={14} /> <span>Add Service</span>
         </button>
       </PageHeader>
 
-      <div className="bg-white rounded-[32px] shadow-sm overflow-hidden border border-gray-100 mt-8">
-        <div className="overflow-x-auto">
+      <div className="mt-4">
+        {error && <AlertBox type="error">{error}</AlertBox>}
+        {success && <AlertBox type="success">{success}</AlertBox>}
+      </div>
+
+      {loading && services.length === 0 ? (
+        <LoadingSpinner text="Sedang mengambil data dari Supabase..." />
+      ) : !loading && services.length === 0 ? (
+        <EmptyState text="Belum ada layanan. Silahkan klik 'Add Service'!" />
+      ) : (
+        <div className="rounded-2xl border border-gray-100 bg-white shadow-sm mt-6 overflow-hidden">
           <table className="min-w-full text-left text-sm">
-            <thead className="text-black/30 font-medium uppercase tracking-widest text-[10px] border-b border-gray-50">
+            <thead className="bg-gray-50">
               <tr>
-                <th className="px-8 py-6 font-medium">Service ID</th>
-                <th className="px-8 py-6 font-medium">Service Name</th>
-                <th className="px-8 py-6 font-medium">Category</th>
-                <th className="px-8 py-6 font-medium">Duration</th>
-                <th className="px-8 py-6 font-medium text-right">Price</th>
+                <th className="px-6 py-4 font-semibold text-gray-700">ID</th>
+                <th className="px-6 py-4 font-semibold text-gray-700">Service Name</th>
+                <th className="px-6 py-4 font-semibold text-gray-700">Category</th>
+                <th className="px-6 py-4 font-semibold text-gray-700">Duration</th>
+                <th className="px-6 py-4 font-semibold text-gray-700 text-right">Price</th>
+                <th className="px-6 py-4 font-semibold text-gray-700 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {services.map((svc, idx) => (
-                <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
-                  <td className="px-8 py-5 text-black/50 font-normal">{svc.serviceId}</td>
-                  <td className="px-8 py-5 text-black font-normal">
-                    <div className="flex items-center">
-                      <FaSpa className="mr-3 text-black/20" />
-                      {svc.serviceName}
-                    </div>
-                  </td>
-                  <td className="px-8 py-5">
+                <tr key={svc.id || idx} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-6 py-4 font-mono text-xs text-gray-500">#{svc.id}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900">{svc.servicename}</td>
+                  <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-medium tracking-wide ${getCategoryStyle(svc.category)}`}>
                       {svc.category}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-black/50 font-normal">
-                    <div className="flex items-center">
-                      <FaHourglassHalf className="mr-2 text-[10px] opacity-30" />
-                      {svc.duration} mins
-                    </div>
-                  </td>
-                  <td className="px-8 py-5 text-right">
-                    <span className="font-medium text-black">{svc.price}</span>
+                  <td className="px-6 py-4 text-gray-600">{svc.duration} mins</td>
+                  <td className="px-6 py-4 text-right font-medium text-gray-900">{svc.price}</td>
+                  <td className="px-6 py-4 text-center">
+                    <button
+                      onClick={() => handleDelete(svc.id, svc.servicename)}
+                      disabled={loading}
+                      className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
+                      title="Delete Service"
+                    >
+                      <FaTrash size={14} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* MODAL SECTION */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-[32px] w-full max-w-md p-10 relative shadow-2xl animate-in fade-in zoom-in duration-300">
-            <button 
-              onClick={() => setIsModalOpen(false)} 
-              className="absolute top-8 right-8 text-black/20 hover:text-black transition-colors"
-            >
-              <FaTimes size={20} />
-            </button>
-            
-            <h2 className="text-2xl font-medium text-black mb-2 tracking-tight">New Service</h2>
-            <p className="text-sm text-black/40 mb-8">Define a new beauty treatment service.</p>
-            
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest">Service ID</label>
-                  <input 
-                    type="text" name="serviceId" value={formData.serviceId} onChange={handleInputChange} required 
-                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all text-black" 
-                    placeholder="SRV-001" 
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest">Category</label>
-                  <select 
-                    name="category" value={formData.category} onChange={handleInputChange} 
-                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all cursor-pointer text-black"
-                  >
-                    <option value="Facial">Facial</option>
-                    <option value="Laser">Laser</option>
-                    <option value="Massage">Massage</option>
-                  </select>
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest">Service Name</label>
-                <input 
-                  type="text" name="serviceName" value={formData.serviceName} onChange={handleInputChange} required 
-                  className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all text-black" 
-                  placeholder="e.g. Gold Facial Detox" 
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest">Duration (min)</label>
-                  <input 
-                    type="number" name="duration" value={formData.duration} onChange={handleInputChange} required 
-                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all text-black" 
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-medium text-black/40 uppercase ml-1 tracking-widest">Price</label>
-                  <input 
-                    type="text" name="price" value={formData.price} onChange={handleInputChange} required 
-                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus:outline-none focus:ring-1 focus:ring-[#CDEEDD] transition-all text-black" 
-                    placeholder="Rp 500.000" 
-                  />
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <button 
-                  type="submit" 
-                  className="w-full py-4 bg-[#CDEEDD] text-black rounded-2xl hover:bg-[#B8E2CC] font-medium shadow-xl shadow-[#CDEEDD]/20 transition-all duration-300"
-                >
-                  Save Service
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       )}
+
+      <ServiceModal 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        title="New Service"
+        description="Define a new beauty treatment service. Data will be saved to Supabase."
+      >
+        <ServiceForm 
+          formData={formData} 
+          loading={loading}
+          onChange={handleInputChange} 
+          onSubmit={handleSubmit} 
+        />
+      </ServiceModal>
     </div>
   );
 }

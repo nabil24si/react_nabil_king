@@ -6,8 +6,8 @@ import AppointmentStatusBadge from "./AppointmentStatusBadge";
 export default function AppointmentTableRow({ apt }) {
   return (
     <tr className="hover:bg-gray-50/50 transition-colors group">
-      <td className="px-8 py-5 text-black/50 font-normal">{apt.appointmentId}</td>
-      <td className="px-8 py-5 text-black font-normal">{apt.patientName}</td>
+       <td className="px-8 py-5 text-black/50 font-normal">#{apt.id}</td>
+       <td className="px-8 py-5 text-black font-normal">{apt.patientname}</td>
       <td className="px-8 py-5">
         <span className="bg-gray-50 text-black/60 px-3 py-1 rounded-lg text-[11px] border border-gray-100">
           {apt.service}

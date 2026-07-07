@@ -1,65 +1,119 @@
 // pages/Patients.jsx
-import React, { useState, useEffect, useRef } from "react"; // ✨ 1. Mengimpor useEffect dan useRef
-import { FaPlus, FaSearch } from "react-icons/fa"; // Menambahkan ikon Search untuk UI CRM
+import React, { useState, useEffect, useRef } from "react";
+import { FaPlus, FaSearch, FaTrash } from "react-icons/fa";
 import PageHeader from "../components/PageHeader";
-import patientsData from "../data/PatientsData.json";
 
-// Import komponen pecahan
+// Import Service API Supabase
+import { patientsAPI } from "../services/patientsAPI";
+
+// Import Komponen State UI dari Modul
+import AlertBox from "../components/AlertBox";
+import EmptyState from "../components/EmptyState";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+// Import Komponen Pecahan Khusus Patient (Shadcn/ui)
 import PatientTable from "../components/PatientTable";
 import PatientModal from "../components/PatientModal";
 import PatientForm from "../components/PatientForm";
 
 const initialFormState = { 
-  patientId: "", 
   patientName: "", 
   email: "", 
   phone: "", 
-  treatment: "Facial Rejuvenation" 
+  treatment: "Facial" 
 };
 
 export default function Patients(props) {
-  // ==========================================
-  // A. IMPLEMENTASI USESTATE
-  // ==========================================
-  const [patients, setPatients] = useState(patientsData);
+  // State Data & UI Status
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  
+  // State Modal & Form Input
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState(initialFormState);
-  const [searchQuery, setSearchQuery] = useState(""); // State tambahan untuk filter pencarian
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // ==========================================
-  // C. IMPLEMENTASI USEREF
-  // ==========================================
-  // Membuat referensi langsung ke elemen DOM input pencarian
+  // useRef untuk auto-focus
   const searchInputRef = useRef(null);
 
-  // ==========================================
-  // B. IMPLEMENTASI USEEFFECT
-  // ==========================================
-  // Efek 1: Auto-focus ke kolom pencarian saat pertama kali halaman CRM dibuka
+  // Fetch data saat halaman dimuat
+  useEffect(() => {
+    loadPatients();
+  }, []);
+
+  // Auto-focus ke kolom pencarian
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
-  }, []); // Kosong [] = Hanya berjalan 1x saat mount
+  }, []);
 
-  // Efek 2: Mengubah judul Tab Browser dinamis berdasarkan jumlah pasien terdaftar
-  useEffect(() => {
-    document.title = `CRM Clinic - ${patients.length} Active Patients`;
-  }, [patients]); // Berjalan setiap kali state 'patients' berubah
+  // Ambil Data dari Supabase
+  const loadPatients = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await patientsAPI.fetchPatients();
+      setPatients(data);
+    } catch (err) {
+      setError("Gagal memuat daftar pasien dari database Supabase.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // ==========================================
-  // HANDLER FUNCTIONS
-  // ==========================================
+  // Handle Input Form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  // Submit Create Data Baru ke Supabase
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setPatients([formData, ...patients]); // Menambah pasien baru ke baris paling atas
-    setIsModalOpen(false);
-    setFormData(initialFormState);
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      await patientsAPI.createPatient(formData);
+
+      setSuccess("Data pasien baru berhasil ditambahkan!");
+      setIsModalOpen(false); 
+      setFormData(initialFormState); 
+
+      setTimeout(() => setSuccess(""), 3000);
+      loadPatients();
+    } catch (err) {
+      setError(`Gagal menyimpan pasien: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Hapus Data Pasien dari Supabase
+  const handleDelete = async (id, name) => {
+    const konfirmasi = confirm(`Yakin ingin menghapus data pasien "${name}"?`);
+    if (!konfirmasi) return;
+
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      await patientsAPI.deletePatient(id);
+      setSuccess(`Data pasien "${name}" berhasil dihapus.`);
+      
+      setTimeout(() => setSuccess(""), 3000);
+      loadPatients(); 
+    } catch (err) {
+      setError(`Gagal menghapus data: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -67,31 +121,37 @@ export default function Patients(props) {
     setFormData(initialFormState);
   };
 
-  // Logika filter data pasien berdasarkan input pencarian
+  // Logika filter data berdasarkan pencarian
   const filteredPatients = patients.filter((patient) =>
-    patient.patientName.toLowerCase().includes(searchQuery.toLowerCase())
+    patient.patientname?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="flex flex-col p-2 min-h-screen font-poppins bg-transparent text-black">
-      {/* Header Halaman */}
       <PageHeader 
         title={props.title || "Patients Management"} 
         breadcrumb={["Dashboard", "Patient List"]}
       >
         <button 
           onClick={() => setIsModalOpen(true)} 
-          className="bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black px-6 py-3 rounded-2xl flex items-center space-x-2 font-medium shadow-lg shadow-[#CDEEDD]/20 transition-all duration-300"
+          disabled={loading}
+          className="bg-[#CDEEDD] hover:bg-[#B8E2CC] text-black px-6 py-3 rounded-2xl flex items-center space-x-2 font-medium shadow-lg shadow-[#CDEEDD]/20 transition-all duration-300 disabled:opacity-50"
         >
           <FaPlus size={14} /> <span>Add Patient</span>
         </button>
       </PageHeader>
 
-      {/* 🔍 FITUR BARU: Search Bar memanfaatkan useRef */}
+      {/* Sesi Status Alert Notifikasi */}
+      <div className="mt-4">
+        {error && <AlertBox type="error">{error}</AlertBox>}
+        {success && <AlertBox type="success">{success}</AlertBox>}
+      </div>
+
+      {/* Search Bar */}
       <div className="mb-6 flex items-center bg-white border border-gray-200 rounded-xl px-4 py-2 w-full max-w-md shadow-sm">
         <FaSearch className="text-gray-400 mr-3" size={16} />
         <input
-          ref={searchInputRef} // 🔗 Menghubungkan variabel useRef ke elemen DOM ini
+          ref={searchInputRef}
           type="text"
           placeholder="Quick search by patient name..."
           value={searchQuery}
@@ -100,18 +160,29 @@ export default function Patients(props) {
         />
       </div>
 
-      {/* Tabel & Konten (Menggunakan filteredPatients agar pencarian berfungsi) */}
-      <PatientTable patients={filteredPatients} />
+      {/* Kondisional Rendering */}
+      {loading && patients.length === 0 ? (
+        <LoadingSpinner text="Sedang mengambil data dari Supabase..." />
+      ) : !loading && filteredPatients.length === 0 ? (
+        <EmptyState text="Belum ada data pasien terdaftar. Silahkan klik 'Add Patient'!" />
+      ) : (
+        <PatientTable 
+          patients={filteredPatients} 
+          onDelete={handleDelete} 
+          loading={loading} 
+        />
+      )}
 
-      {/* Komponen Modal */}
+      {/* Modal & Form Pengisian Data Baru */}
       <PatientModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
         title="New Patient"
-        description="Add a new record to your clinic database."
+        description="Add a new record to your clinic database. Data will be saved to Supabase."
       >
         <PatientForm 
           formData={formData} 
+          loading={loading}
           onChange={handleInputChange} 
           onSubmit={handleSubmit} 
         />

@@ -9,14 +9,6 @@ export default function AppointmentForm({ formData, onChange, onSubmit }) {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="space-y-1.5">
-        <label className={labelClass}>Appointment ID</label>
-        <input 
-          type="text" name="appointmentId" value={formData.appointmentId} onChange={onChange} required 
-          className={inputClass} placeholder="e.g. APT-001" 
-        />
-      </div>
-      
-      <div className="space-y-1.5">
         <label className={labelClass}>Patient Name</label>
         <input 
           type="text" name="patientName" value={formData.patientName} onChange={onChange} required 
@@ -24,33 +16,31 @@ export default function AppointmentForm({ formData, onChange, onSubmit }) {
         />
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label className={labelClass}>Service</label>
-          <select name="service" value={formData.service} onChange={onChange} className={selectClass}>
-            <option value="Facial">Facial</option>
-            <option value="Laser">Laser</option>
-            <option value="Massage">Massage</option>
-            <option value="Botox">Botox</option>
-          </select>
-        </div>
-        
-        <div className="space-y-1.5">
-          <label className={labelClass}>Status</label>
-          <select name="status" value={formData.status} onChange={onChange} className={selectClass}>
-            <option value="Scheduled">Scheduled</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
+      <div className="space-y-1.5">
+        <label className={labelClass}>Service</label>
+        <select name="service" value={formData.service} onChange={onChange} className={selectClass}>
+          <option value="Facial">Facial</option>
+          <option value="Laser">Laser</option>
+          <option value="Massage">Massage</option>
+          <option value="Botox">Botox</option>
+        </select>
       </div>
       
       <div className="space-y-1.5">
         <label className={labelClass}>Date & Time</label>
         <input 
-          type="datetime-local" name="date" value={formData.date} onChange={onChange} required 
-          className={inputClass} 
+          type="text" name="date" value={formData.date} onChange={onChange} required 
+          className={inputClass} placeholder="e.g. 2028-09-12 09:00 AM" 
         />
+      </div>
+
+      <div className="space-y-1.5">
+        <label className={labelClass}>Status</label>
+        <select name="status" value={formData.status} onChange={onChange} className={selectClass}>
+          <option value="Scheduled">Scheduled</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
       </div>
 
       <div className="pt-6">
