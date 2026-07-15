@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit3 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import AppointmentStatusBadge from "./AppointmentStatusBadge";
 
-export default function AppointmentTable({ appointments = [], onDelete, loading }) {
+export default function AppointmentTable({ appointments = [], onDelete, onEdit, loading }) {
   return (
     <div className="rounded-2xl border border-gray-100 bg-white shadow-sm mt-6 overflow-hidden">
       <Table>
@@ -46,14 +46,24 @@ export default function AppointmentTable({ appointments = [], onDelete, loading 
                   <AppointmentStatusBadge status={apt.status} />
                 </TableCell>
                 <TableCell className="text-center">
-                  <button
-                    onClick={() => onDelete(apt.id, apt.patientname)}
-                    disabled={loading}
-                    className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
-                    title="Delete Appointment"
-                  >
-                    <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                  </button>
+                  <div className="flex items-center justify-center gap-1">
+                    <button
+                      onClick={() => onEdit(apt)}
+                      disabled={loading}
+                      className="p-2 hover:bg-blue-50 rounded-xl transition-colors group disabled:opacity-50"
+                      title="Edit Appointment"
+                    >
+                      <Edit3 size={16} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
+                    </button>
+                    <button
+                      onClick={() => onDelete(apt.id, apt.patientname)}
+                      disabled={loading}
+                      className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
+                      title="Delete Appointment"
+                    >
+                      <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                    </button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))

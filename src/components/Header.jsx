@@ -1,10 +1,12 @@
 // Header.jsx
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom"; // ✨ Tambahkan useNavigate untuk redirect
-import { FaBell, FaSearch, FaSignOutAlt } from "react-icons/fa"; // Tambahkan ikon logout
+import { useNavigate } from "react-router-dom";
+import { FaBell, FaSearch, FaSignOutAlt } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Header({ title }) {
   const navigate = useNavigate();
+  const { user, logout: authLogout } = useAuth();
   
   // State untuk data user
   const [currentUser, setCurrentUser] = useState({
@@ -12,39 +14,34 @@ export default function Header({ title }) {
     email: "",
   });
 
-  // ✨ State baru untuk mengontrol kemunculan dropdown menu
+  // State baru untuk dropdown menu
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Mengambil data session saat komponen dimuat
+  // Mengambil data session dari AuthContext
   useEffect(() => {
-    const sessionData = localStorage.getItem("user_session");
-    if (sessionData) {
-      try {
-        const parsedUser = JSON.parse(sessionData);
-        setCurrentUser(parsedUser);
-      } catch (error) {
-        console.error("Gagal membaca session user:", error);
-      }
+    if (user) {
+      setCurrentUser({
+        username: user.username || "Admin",
+        email: user.email || "",
+      });
     }
+  }, [user]);
 
-    // Fungsi untuk menutup dropdown jika pengguna mengklik di luar area avatar/dropdown
+  // Fungsi untuk menutup dropdown jika klik di luar
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✨ Fungsi untuk menangani proses Logout
+  // Fungsi Logout menggunakan AuthContext
   const handleLogout = () => {
-    // 1. Hapus data session dari penyimpanan lokal browser
-    localStorage.removeItem("user_session");
-    
-    // 2. Tendang user kembali ke halaman login secara bersih
+    authLogout();
     navigate("/login");
   };
 

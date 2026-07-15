@@ -27,6 +27,17 @@ export const servicesAPI = {
         return response.data
     },
 
+    async updateService(id, data) {
+        const payload = {
+            servicename: data.serviceName,
+            category: data.category,
+            duration: data.duration,
+            price: data.price
+        }
+        const response = await axios.patch(`${API_URL}?id=eq.${id}`, payload, { headers })
+        return response.data
+    },
+
     async deleteService(id) {
         const response = await axios.delete(`${API_URL}?id=eq.${id}`, { headers })
         return response.data

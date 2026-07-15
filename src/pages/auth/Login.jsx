@@ -5,6 +5,7 @@ import axios from "axios";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineEye } from "react-icons/hi";
+import { useAuth } from "../../contexts/AuthContext";
 
 // Konfigurasi endpoint Supabase
 const API_URL = "https://qovurxrovzstbawkswnj.supabase.co/rest/v1/users";
@@ -18,6 +19,7 @@ const headers = {
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
@@ -48,10 +50,21 @@ export default function Login() {
 
       if (response.data && response.data.length > 0) {
         const userLoggedIn = response.data[0];
-        // Simpan session user ke localStorage
-        localStorage.setItem("user_session", JSON.stringify(userLoggedIn));
-        // Redirect ke halaman utama tanpa perlu refresh manual
-        navigate("/dashboard");
+        
+        // Set default role if not exists (for backward compatibility)
+        if (!userLoggedIn.role) {
+          userLoggedIn.role = "customer";
+        }
+
+        // Save session via AuthContext
+        login(userLoggedIn);
+        
+        // Redirect berdasarkan role
+        if (userLoggedIn.role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/member");
+        }
       } else {
         setError("Email atau password yang Anda masukkan salah.");
       }

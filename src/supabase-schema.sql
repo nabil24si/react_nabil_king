@@ -3,12 +3,13 @@
 -- Copy paste seluruh script ini ke Supabase SQL Editor
 -- ============================================================
 
--- 1. TABLE: users (sudah ada, tapi dibuat ulang untuk referensi)
+-- 1. TABLE: users (dengan kolom role untuk admin/customer)
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'customer',
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

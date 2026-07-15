@@ -28,6 +28,17 @@ export const patientsAPI = {
         return response.data
     },
 
+    async updatePatient(id, data) {
+        const payload = {
+            patientname: data.patientName,
+            email: data.email,
+            phone: data.phone,
+            treatment: data.treatment
+        }
+        const response = await axios.patch(`${API_URL}?id=eq.${id}`, payload, { headers })
+        return response.data
+    },
+
     async deletePatient(id) {
         const response = await axios.delete(`${API_URL}?id=eq.${id}`, { headers })
         return response.data

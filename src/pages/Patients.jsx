@@ -71,7 +71,7 @@ export default function Patients(props) {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Submit Create Data Baru ke Supabase
+  // Submit Create/Update Data ke Supabase
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -79,9 +79,18 @@ export default function Patients(props) {
       setError("");
       setSuccess("");
 
-      await patientsAPI.createPatient(formData);
+      const { editingId, ...patientData } = formData;
 
-      setSuccess("Data pasien baru berhasil ditambahkan!");
+      if (editingId) {
+        // UPDATE data pasien yang sudah ada
+        await patientsAPI.updatePatient(editingId, patientData);
+        setSuccess("Data pasien berhasil diperbarui!");
+      } else {
+        // CREATE data pasien baru
+        await patientsAPI.createPatient(patientData);
+        setSuccess("Data pasien baru berhasil ditambahkan!");
+      }
+
       setIsModalOpen(false); 
       setFormData(initialFormState); 
 
@@ -92,6 +101,19 @@ export default function Patients(props) {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Edit Data Pasien (isi form dengan data yang dipilih)
+  const handleEdit = (patient) => {
+    setFormData({
+      patientName: patient.patientname || "",
+      email: patient.email || "",
+      phone: patient.phone || "",
+      treatment: patient.treatment || "Facial"
+    });
+    // Simpan ID yang akan diedit
+    setFormData(prev => ({ ...prev, editingId: patient.id }));
+    setIsModalOpen(true);
   };
 
   // Hapus Data Pasien dari Supabase
@@ -169,6 +191,7 @@ export default function Patients(props) {
         <PatientTable 
           patients={filteredPatients} 
           onDelete={handleDelete} 
+          onEdit={handleEdit}
           loading={loading} 
         />
       )}
@@ -177,8 +200,8 @@ export default function Patients(props) {
       <PatientModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
-        title="New Patient"
-        description="Add a new record to your clinic database. Data will be saved to Supabase."
+        title={formData.editingId ? "Edit Patient" : "New Patient"}
+        description={formData.editingId ? "Update patient information in Supabase." : "Add a new record to your clinic database. Data will be saved to Supabase."}
       >
         <PatientForm 
           formData={formData} 

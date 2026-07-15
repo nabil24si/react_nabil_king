@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 import { 
   HiOutlineSparkles, 
   HiOutlineCalendar, 
@@ -45,6 +46,29 @@ export default function GuestDashboard() {
   const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
   const [crmEmail, setCrmEmail] = useState("");
 
+  // --- SERVICES AUTOMATION STATE ---
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [bookingForm, setBookingForm] = useState({
+    patientName: "",
+    email: "",
+    phone: "",
+    service: "",
+    date: "",
+    time: ""
+  });
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState("");
+
+  // --- API CONFIG ---
+  const API_URL = "https://qovurxrovzstbawkswnj.supabase.co/rest/v1/appointments";
+  const API_KEY = "sb_publishable_JGk5Hx18sBrMOWwxuQ6Ztg_xID5Yepl";
+  const headers = {
+    apikey: API_KEY,
+    Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+    Prefer: "return=representation"
+  };
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -62,6 +86,38 @@ export default function GuestDashboard() {
     if(crmEmail) {
       showToast(`Terima kasih! Voucher diskon telah dikirim ke ${crmEmail}`);
       setCrmEmail("");
+    }
+  };
+
+  // --- SERVICES AUTOMATION: AUTO BOOKING ---
+  const handleBookingChange = (e) => {
+    const { name, value } = e.target;
+    setBookingForm({ ...bookingForm, [name]: value });
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    setBookingLoading(true);
+    setBookingSuccess("");
+
+    try {
+      const payload = {
+        patientname: bookingForm.patientName,
+        service: bookingForm.service,
+        date: `${bookingForm.date} ${bookingForm.time}`,
+        status: "Scheduled"
+      };
+
+      await axios.post(API_URL, payload, { headers });
+      
+      setBookingSuccess("Booking berhasil! Kami akan menghubungi Anda untuk konfirmasi.");
+      setBookingForm({ patientName: "", email: "", phone: "", service: "", date: "", time: "" });
+      setTimeout(() => setBookingSuccess(""), 5000);
+    } catch (err) {
+      showToast("Gagal melakukan booking. Silakan coba lagi.");
+      console.error(err);
+    } finally {
+      setBookingLoading(false);
     }
   };
 
@@ -719,8 +775,190 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          12. GRAND FINAL CONVERSION BANNER — REDESIGN
-         ========================================== */}
+           12. SERVICES AUTOMATION — AUTO BOOKING SYSTEM
+          ========================================== */}
+      <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-5xl mx-auto px-6 sm:px-8 mb-24 relative z-10">
+        <div className="bg-white rounded-[3rem] p-8 sm:p-14 shadow-xl border border-slate-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-[#E5806A]/10 rounded-full blur-3xl"></div>
+          
+          <div className="relative z-10">
+            <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
+              <span className="inline-flex items-center bg-[#FFF0EC] border border-[#FFE4DC] px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase text-[#E5806A] shadow-sm">
+                SERVICES AUTOMATION
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#12243A] pt-4">Booking <span className="text-[#E5806A] italic">Otomatis</span></h2>
+              <p className="text-sm text-slate-500 font-medium pt-2">Pilih treatment, isi data, dan dapatkan konfirmasi instan. Sistem kami akan mengatur jadwal untuk Anda.</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+              {/* Kolom Kiri: Info */}
+              <div className="space-y-6">
+                <div className="bg-[#F2F6F4] p-6 rounded-2xl border border-slate-100">
+                  <h3 className="font-bold text-[#12243A] mb-4 flex items-center gap-2">
+                    <HiOutlineClock className="text-[#E5806A]" size={20} />
+                    Jam Operasional
+                  </h3>
+                  <div className="space-y-2 text-sm text-slate-600">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Senin - Jumat</span>
+                      <span className="font-bold text-[#12243A]">09:00 - 20:00</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Sabtu</span>
+                      <span className="font-bold text-[#12243A]">10:00 - 18:00</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Minggu</span>
+                      <span className="font-bold text-[#E5806A]">Tutup</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-[#F2F6F4] p-6 rounded-2xl border border-slate-100">
+                  <h3 className="font-bold text-[#12243A] mb-4 flex items-center gap-2">
+                    <HiOutlineUserGroup className="text-[#E5806A]" size={20} />
+                    Layanan Tersedia
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    {[
+                      { name: "PicoGold Pore-Eraser", price: "Rp 1.500.000", duration: "60 menit" },
+                      { name: "Anti-Aging Ultherapy", price: "Rp 2.500.000", duration: "90 menit" },
+                      { name: "DNA Salmon Booster", price: "Rp 3.200.000", duration: "75 menit" },
+                      { name: "Royal Oxygen Facial", price: "Rp 850.000", duration: "45 menit" }
+                    ].map((svc, idx) => (
+                      <div key={idx} className="flex justify-between items-center py-2 border-b border-slate-200 last:border-0">
+                        <div>
+                          <p className="font-medium text-[#12243A]">{svc.name}</p>
+                          <p className="text-[10px] text-slate-500">{svc.duration}</p>
+                        </div>
+                        <span className="font-bold text-[#E5806A] text-xs">{svc.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Kolom Kanan: Form Booking */}
+              <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <h3 className="text-xl font-bold text-[#12243A] mb-6">Form Booking Otomatis</h3>
+                
+                {bookingSuccess && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 p-4 bg-[#CDEEDD]/40 text-black rounded-xl flex items-center gap-3 border border-[#CDEEDD]/60">
+                    <HiOutlineCheckCircle size={20} className="text-emerald-600 shrink-0" />
+                    <span className="text-sm font-medium">{bookingSuccess}</span>
+                  </motion.div>
+                )}
+
+                <form onSubmit={handleBookingSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">Nama Lengkap</label>
+                    <input 
+                      type="text" 
+                      name="patientName" 
+                      value={bookingForm.patientName}
+                      onChange={handleBookingChange}
+                      required
+                      className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all"
+                      placeholder="Masukkan nama Anda"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">Email</label>
+                      <input 
+                        type="email" 
+                        name="email" 
+                        value={bookingForm.email}
+                        onChange={handleBookingChange}
+                        required
+                        className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all"
+                        placeholder="email@example.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">No. Telepon</label>
+                      <input 
+                        type="tel" 
+                        name="phone" 
+                        value={bookingForm.phone}
+                        onChange={handleBookingChange}
+                        required
+                        className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all"
+                        placeholder="+62 812-3456-7890"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">Pilih Treatment</label>
+                    <select 
+                      name="service" 
+                      value={bookingForm.service}
+                      onChange={handleBookingChange}
+                      required
+                      className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all cursor-pointer"
+                    >
+                      <option value="">-- Pilih Layanan --</option>
+                      <option value="PicoGold Pore-Eraser">PicoGold Pore-Eraser - Rp 1.500.000</option>
+                      <option value="Anti-Aging Ultherapy">Anti-Aging Ultherapy - Rp 2.500.000</option>
+                      <option value="DNA Salmon Booster">DNA Salmon Booster - Rp 3.200.000</option>
+                      <option value="Royal Oxygen Facial">Royal Oxygen Facial - Rp 850.000</option>
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">Tanggal</label>
+                      <input 
+                        type="date" 
+                        name="date" 
+                        value={bookingForm.date}
+                        onChange={handleBookingChange}
+                        required
+                        className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-[#12243A] uppercase tracking-wider mb-2">Waktu</label>
+                      <input 
+                        type="time" 
+                        name="time" 
+                        value={bookingForm.time}
+                        onChange={handleBookingChange}
+                        required
+                        className="w-full px-4 py-3 bg-[#F2F6F4] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E5806A] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    disabled={bookingLoading}
+                    className="w-full mt-6 py-4 bg-[#12243A] text-white rounded-xl text-sm font-bold hover:bg-[#E5806A] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2"
+                  >
+                    {bookingLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Memproses...</span>
+                      </>
+                    ) : (
+                      <>
+                        <HiOutlineCheckCircle size={18} />
+                        <span>Konfirmasi Booking</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* ==========================================
+           13. GRAND FINAL CONVERSION BANNER — REDESIGN
+          ========================================== */}
       <motion.section id="booking-cta" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="max-w-5xl mx-auto px-6 sm:px-8 mb-32 relative z-10">
         <div className="w-full bg-gradient-to-br from-[#E5806A] to-[#9CAF88] rounded-[3rem] p-12 sm:p-20 relative overflow-hidden shadow-2xl text-center flex flex-col items-center">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -748,8 +986,8 @@ export default function GuestDashboard() {
       </motion.section>
 
       {/* ==========================================
-          14. FOOTER — REDESIGN SOFT ELEGANT
-         ========================================== */}
+           14. FOOTER — REDESIGN SOFT ELEGANT
+          ========================================== */}
       <footer id="footer" className="bg-[#F5EFE6] pt-20 pb-10 relative z-10 border-t border-[rgba(18,36,58,0.08)]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm text-slate-500 mb-16">
           <div className="md:col-span-1 space-y-6">
@@ -812,6 +1050,7 @@ export default function GuestDashboard() {
           <p>Crafted with Precision & Passion</p>
         </div>
       </footer>
+
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit3 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table"; 
 
-export default function PatientTable({ patients = [], onDelete, loading }) {
+export default function PatientTable({ patients = [], onDelete, onEdit, loading }) {
   return (
     <div className="rounded-2xl border border-gray-100 bg-white shadow-sm mt-6 overflow-hidden">
       <Table>
@@ -20,7 +20,7 @@ export default function PatientTable({ patients = [], onDelete, loading }) {
             <TableHead className="font-semibold text-gray-700">Email</TableHead>
             <TableHead className="font-semibold text-gray-700">Phone</TableHead>
             <TableHead className="font-semibold text-gray-700">Treatment</TableHead>
-            <TableHead className="w-[80px] font-semibold text-center">Actions</TableHead>
+            <TableHead className="w-[120px] font-semibold text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -43,14 +43,26 @@ export default function PatientTable({ patients = [], onDelete, loading }) {
                   </span>
                 </TableCell>
                 <TableCell className="text-center">
-                  <button
-                    onClick={() => onDelete(patient.id, patient.patientname)}
-                    disabled={loading}
-                    className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
-                    title="Delete Patient"
-                  >
-                    <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                  </button>
+                  <div className="flex items-center justify-center gap-1">
+                    {/* Tombol Edit */}
+                    <button
+                      onClick={() => onEdit(patient)}
+                      disabled={loading}
+                      className="p-2 hover:bg-blue-50 rounded-xl transition-colors group disabled:opacity-50"
+                      title="Edit Patient"
+                    >
+                      <Edit3 size={16} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
+                    </button>
+                    {/* Tombol Delete */}
+                    <button
+                      onClick={() => onDelete(patient.id, patient.patientname)}
+                      disabled={loading}
+                      className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
+                      title="Delete Patient"
+                    >
+                      <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                    </button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))

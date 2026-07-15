@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calendar, Clock, MapPin, ChevronRight, Star, Sparkles, Activity, 
   Search, Bell, Menu, X, Gift, Ticket, History, Home, ShoppingBag, 
   CheckCircle, Plus, Send, Droplets, Flower2, Heart, ShoppingCart, 
-  Trash2, Receipt, Minus
+  Trash2, Receipt, Minus, LogOut
 } from 'lucide-react';
 
 // --- HELPER FUNCTION ---
@@ -84,7 +86,7 @@ const BackgroundOrnaments = () => (
   </div>
 );
 
-const Navbar = ({ user, activeTab, setActiveTab, cartItemCount, setIsCartOpen }) => {
+const Navbar = ({ user, activeTab, setActiveTab, cartItemCount, setIsCartOpen, onLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -139,6 +141,14 @@ const Navbar = ({ user, activeTab, setActiveTab, cartItemCount, setIsCartOpen })
               <img src={user.avatar} className="w-7 h-7 rounded-full border border-[#FFF0EC]" alt="avatar" />
               <span className="hidden sm:block text-xs font-bold text-[#12243A] pr-2">{user.name.split(' ')[0]}</span>
             </div>
+            {/* Tombol Logout */}
+            <button 
+              onClick={onLogout}
+              className="p-2 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors"
+              title="Logout"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
         </div>
       </div>
@@ -149,12 +159,32 @@ const Navbar = ({ user, activeTab, setActiveTab, cartItemCount, setIsCartOpen })
 // --- MAIN APPLICATION ---
 
 export default function MemberDashboard() {
+  const navigate = useNavigate();
+  const { user: authUser, logout: authLogout } = useAuth();
+  
+  // Build user object from real logged-in data
+  const currentUser = {
+    id: authUser?.id || "MBR-000001",
+    name: authUser?.username || "Guest",
+    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authUser?.username || 'Guest')}&background=FFF0EC&color=E5806A&size=150`,
+    tier: "Gold Member",
+    points: 850,
+    nextTierPoints: 1000,
+    stats: { vouchers: 4, visits: 12, saved: "Rp 1.2M" }
+  };
+
   const [loading, setLoading] = useState(true);
+
+  // Handle logout
+  const handleLogout = () => {
+    authLogout();
+    navigate("/");
+  };
   const [activeTab, setActiveTab] = useState('dashboard');
   const [toast, setToast] = useState(null);
   
   // State Interaktif CRM & E-Commerce
-  const [userPoints, setUserPoints] = useState(mockData.user.points);
+  const [userPoints, setUserPoints] = useState(currentUser.points);
   const [myVouchers, setMyVouchers] = useState([]);
   const [showRedeem, setShowRedeem] = useState(false);
   const [bookingForm, setBookingForm] = useState({ treatment: '', date: '', time: '' });
@@ -271,11 +301,12 @@ export default function MemberDashboard() {
       <BackgroundOrnaments />
       
       <Navbar 
-        user={mockData.user} 
+        user={currentUser} 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         cartItemCount={cart.reduce((acc, item) => acc + item.qty, 0)}
         setIsCartOpen={setIsCartOpen}
+        onLogout={handleLogout}
       />
 
       {/* --- INVOICE MODAL (FITUR BARU) --- */}
@@ -465,7 +496,7 @@ export default function MemberDashboard() {
                   THE NEW STANDARD OF DERMATOLOGY
                 </span>
                 <h1 className="text-3xl md:text-4xl font-bold text-[#12243A]">
-                  Welcome Back, <span className="text-[#E5806A]">{mockData.user.name.split(' ')[0]}!</span>
+                  Welcome Back, <span className="text-[#E5806A]">{currentUser.name.split(' ')[0]}!</span>
                 </h1>
               </div>
 

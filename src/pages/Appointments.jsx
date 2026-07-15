@@ -61,9 +61,16 @@ export default function Appointments(props) {
       setError("");
       setSuccess("");
 
-      await appointmentsAPI.createAppointment(formData);
+      const { editingId, ...appointmentData } = formData;
 
-      setSuccess("Janji baru berhasil ditambahkan!");
+      if (editingId) {
+        await appointmentsAPI.updateAppointment(editingId, appointmentData);
+        setSuccess("Janji berhasil diperbarui!");
+      } else {
+        await appointmentsAPI.createAppointment(appointmentData);
+        setSuccess("Janji baru berhasil ditambahkan!");
+      }
+
       setIsModalOpen(false);
       setFormData(initialFormState);
 
@@ -74,6 +81,17 @@ export default function Appointments(props) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (appointment) => {
+    setFormData({
+      patientName: appointment.patientname || "",
+      service: appointment.service || "Facial",
+      date: appointment.date || "",
+      status: appointment.status || "Scheduled"
+    });
+    setFormData(prev => ({ ...prev, editingId: appointment.id }));
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id, patientname) => {
@@ -130,6 +148,7 @@ export default function Appointments(props) {
         <AppointmentTable 
           appointments={appointments} 
           onDelete={handleDelete} 
+          onEdit={handleEdit}
           loading={loading} 
         />
       )}
@@ -137,8 +156,8 @@ export default function Appointments(props) {
       <AppointmentModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
-        title="New Appointment"
-        description="Add a new appointment to the schedule. Data will be saved to Supabase."
+        title={formData.editingId ? "Edit Appointment" : "New Appointment"}
+        description={formData.editingId ? "Update appointment details in Supabase." : "Add a new appointment to the schedule. Data will be saved to Supabase."}
       >
         <AppointmentForm 
           formData={formData} 

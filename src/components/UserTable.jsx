@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit3 } from "lucide-react";
 
-export default function UserTable({ users, onDelete, loading }) {
+export default function UserTable({ users, onDelete, onEdit, loading }) {
   return (
     <div className="rounded-xl border bg-white shadow-sm overflow-hidden mt-6">
       <Table>
@@ -32,14 +32,24 @@ export default function UserTable({ users, onDelete, loading }) {
                 {new Date(user.created_at).toLocaleString("id-ID")}
               </TableCell>
               <TableCell className="text-center">
-                <button
-                  onClick={() => onDelete(user.id, user.username)}
-                  disabled={loading}
-                  className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
-                  title="Delete User"
-                >
-                  <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                </button>
+                <div className="flex items-center justify-center gap-1">
+                  <button
+                    onClick={() => onEdit(user)}
+                    disabled={loading}
+                    className="p-2 hover:bg-blue-50 rounded-xl transition-colors group disabled:opacity-50"
+                    title="Edit User"
+                  >
+                    <Edit3 size={16} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
+                  </button>
+                  <button
+                    onClick={() => onDelete(user.id, user.username)}
+                    disabled={loading}
+                    className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
+                    title="Delete User"
+                  >
+                    <Trash2 size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                  </button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

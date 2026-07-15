@@ -22,7 +22,13 @@ export const usersAPI = {
         return response.data
     },
 
-    // 3. Hapus user berdasarkan ID
+    // 3. Update user berdasarkan ID
+    async updateUser(id, data) {
+        const response = await axios.patch(`${API_URL}?id=eq.${id}`, data, { headers })
+        return response.data
+    },
+
+    // 4. Hapus user berdasarkan ID
     async deleteUser(id) {
         const response = await axios.delete(`${API_URL}?id=eq.${id}`, { headers })
         return response.data

@@ -22,10 +22,11 @@ export default function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [dataForm, setDataForm] = useState({
-    username: "", // ✨ State baru untuk menampung input username
+    username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: "customer" // Default role: customer
   });
 
   const handleChange = (e) => {
@@ -52,15 +53,16 @@ export default function Register() {
     try {
       // Menyusun payload data mentah langsung dari input pengguna
       const payload = {
-        username: dataForm.username, // ✨ Mengirimkan username asli inputan user
+        username: dataForm.username,
         email: dataForm.email,
-        password: dataForm.password
+        password: dataForm.password,
+        role: dataForm.role // Kirim role ke database
       };
 
       // Mengirim POST request ke database Supabase
       await axios.post(API_URL, payload, { headers });
 
-      setSuccess("Registrasi akun administrator berhasil! Mengalihkan...");
+      setSuccess("Registrasi akun berhasil! Mengalihkan ke halaman login...");
       setDataForm({ username: "", email: "", password: "", confirmPassword: "" });
 
       // Berpindah ke login secara halus setelah 2 detik
@@ -81,7 +83,7 @@ export default function Register() {
         Join GlowCare
       </h2>
       <p className="text-center text-sm text-[#a9a9a9] mb-8 font-medium">
-        Create an administrator account to start managing
+        Create your account to get started with GlowCare
       </p>
 
       {/* Sesi Status Alert Notifikasi */}
@@ -144,6 +146,45 @@ export default function Register() {
           />
         </div>
 
+        {/* Role Selection */}
+        <div>
+          <label className="block text-xs font-bold text-[#63402f] uppercase tracking-wider mb-3 ml-1">
+            Register as
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <label className={`flex items-center justify-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all ${dataForm.role === "customer" ? "border-[#3b7d86] bg-[#3b7d86]/5" : "border-gray-200 bg-white hover:border-gray-300"}`}>
+              <input
+                type="radio"
+                name="role"
+                value="customer"
+                checked={dataForm.role === "customer"}
+                onChange={handleChange}
+                className="hidden"
+              />
+              <span className="text-lg">👤</span>
+              <div className="text-left">
+                <p className="text-xs font-bold text-[#63402f]">Customer</p>
+                <p className="text-[9px] text-gray-400">Akses Member Area</p>
+              </div>
+            </label>
+            <label className={`flex items-center justify-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all ${dataForm.role === "admin" ? "border-[#3b7d86] bg-[#3b7d86]/5" : "border-gray-200 bg-white hover:border-gray-300"}`}>
+              <input
+                type="radio"
+                name="role"
+                value="admin"
+                checked={dataForm.role === "admin"}
+                onChange={handleChange}
+                className="hidden"
+              />
+              <span className="text-lg">🔧</span>
+              <div className="text-left">
+                <p className="text-xs font-bold text-[#63402f]">Admin</p>
+                <p className="text-[9px] text-gray-400">Manage System</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
         {/* Password Group */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -200,7 +241,7 @@ export default function Register() {
           disabled={loading}
           className="w-full bg-[#3b7d86] hover:bg-[#63402f] text-white font-black py-4 px-4 rounded-2xl transition-all duration-300 shadow-xl shadow-[#3b7d86]/20 transform hover:-translate-y-1 active:scale-95 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? "Processing Register..." : "Create Administrator Account"}
+          {loading ? "Processing Register..." : "Create Account"}
         </button>
       </form>
 

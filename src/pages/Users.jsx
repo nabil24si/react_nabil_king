@@ -59,7 +59,7 @@ export default function Users(props) {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Submit Create Data Baru ke Supabase
+  // Submit Create/Update Data ke Supabase
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -67,19 +67,37 @@ export default function Users(props) {
       setError("");
       setSuccess("");
 
-      await usersAPI.createUser(formData);
+      const { editingId, ...userData } = formData;
 
-      setSuccess("Akun user baru berhasil didaftarkan!");
+      if (editingId) {
+        await usersAPI.updateUser(editingId, userData);
+        setSuccess("Data user berhasil diperbarui!");
+      } else {
+        await usersAPI.createUser(userData);
+        setSuccess("Akun user baru berhasil didaftarkan!");
+      }
+
       setIsModalOpen(false); 
       setFormData(initialFormState); 
 
       setTimeout(() => setSuccess(""), 3000);
-      loadUsers(); // Refresh data tabel
+      loadUsers();
     } catch (err) {
       setError(`Gagal menyimpan user: ${err.message}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Edit Data User
+  const handleEdit = (user) => {
+    setFormData({
+      username: user.username || "",
+      email: user.email || "",
+      password: ""
+    });
+    setFormData(prev => ({ ...prev, editingId: user.id }));
+    setIsModalOpen(true);
   };
 
   // Hapus Data User dari Supabase
@@ -140,6 +158,7 @@ export default function Users(props) {
         <UserTable 
           users={users} 
           onDelete={handleDelete} 
+          onEdit={handleEdit}
           loading={loading} 
         />
       )}
@@ -148,8 +167,8 @@ export default function Users(props) {
       <UserModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
-        title="Create New User Account"
-        description="Masukkan info akun user baru. Data akan langsung terunggah ke database."
+        title={formData.editingId ? "Edit User" : "Create New User Account"}
+        description={formData.editingId ? "Update user information in Supabase." : "Masukkan info akun user baru. Data akan langsung terunggah ke database."}
       >
         <UserForm 
           formData={formData} 

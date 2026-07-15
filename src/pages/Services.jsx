@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import PageHeader from "../components/PageHeader";
 
 // Import Service API Supabase
@@ -59,9 +59,16 @@ export default function Services(props) {
       setError("");
       setSuccess("");
 
-      await servicesAPI.createService(formData);
+      const { editingId, ...serviceData } = formData;
 
-      setSuccess("Layanan baru berhasil ditambahkan!");
+      if (editingId) {
+        await servicesAPI.updateService(editingId, serviceData);
+        setSuccess("Layanan berhasil diperbarui!");
+      } else {
+        await servicesAPI.createService(serviceData);
+        setSuccess("Layanan baru berhasil ditambahkan!");
+      }
+
       setIsModalOpen(false);
       setFormData(initialFormState);
 
@@ -72,6 +79,17 @@ export default function Services(props) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (service) => {
+    setFormData({
+      serviceName: service.servicename || "",
+      price: service.price || "",
+      duration: service.duration || "60",
+      category: service.category || "Facial"
+    });
+    setFormData(prev => ({ ...prev, editingId: service.id }));
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id, servicename) => {
@@ -160,14 +178,24 @@ export default function Services(props) {
                   <td className="px-6 py-4 text-gray-600">{svc.duration} mins</td>
                   <td className="px-6 py-4 text-right font-medium text-gray-900">{svc.price}</td>
                   <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => handleDelete(svc.id, svc.servicename)}
-                      disabled={loading}
-                      className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
-                      title="Delete Service"
-                    >
-                      <FaTrash size={14} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                    </button>
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => handleEdit(svc)}
+                        disabled={loading}
+                        className="p-2 hover:bg-blue-50 rounded-xl transition-colors group disabled:opacity-50"
+                        title="Edit Service"
+                      >
+                        <FaEdit size={14} className="text-blue-400 group-hover:text-blue-600 transition-colors" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(svc.id, svc.servicename)}
+                        disabled={loading}
+                        className="p-2 hover:bg-red-50 rounded-xl transition-colors group disabled:opacity-50"
+                        title="Delete Service"
+                      >
+                        <FaTrash size={14} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -179,8 +207,8 @@ export default function Services(props) {
       <ServiceModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
-        title="New Service"
-        description="Define a new beauty treatment service. Data will be saved to Supabase."
+        title={formData.editingId ? "Edit Service" : "New Service"}
+        description={formData.editingId ? "Update service information in Supabase." : "Define a new beauty treatment service. Data will be saved to Supabase."}
       >
         <ServiceForm 
           formData={formData} 
